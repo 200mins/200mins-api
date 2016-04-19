@@ -21,6 +21,13 @@
 
 module.exports.connections = {
 
+  mongodbServer: {
+    adapter: 'sails-mongo',
+    host: 'localhost',
+    port: 27017,
+    database: '200mins'
+  },
+
   /***************************************************************************
   *                                                                          *
   * Local disk storage for DEVELOPMENT ONLY                                  *
