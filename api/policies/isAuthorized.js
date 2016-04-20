@@ -1,4 +1,4 @@
-module.exports = function isAuthorized(req, res, next) {
+module.exports = function (req, res, next) {
 
     var token;
 

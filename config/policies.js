@@ -49,6 +49,10 @@ module.exports.policies = {
 		// feed : ['isNiceToAnimals', 'hasRabbitFood']
   // }
 
+  FranchiseController: {
+    '*': ['isAuthorized', 'isStaff']
+  },
+
   UserController: {
     'login': true,
     'register': true

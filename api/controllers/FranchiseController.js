@@ -1,7 +1,7 @@
 /**
- * CollectionController
+ * FranchiseController
  *
- * @description :: Server-side logic for managing collections
+ * @description :: Server-side logic for managing franchises
  * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
  */
 
@@ -21,11 +21,10 @@ module.exports = {
 
                     var needle = {
                         movies: req.body.movies,
-                        name: req.body.name,
-                        user: req.body.user
+                        name: req.body.name
                     };
 
-                    Collection.create(needle).exec(function (err, collection) {
+                    Franchise.create(needle).exec(function (err, franchise) {
 
                         if (err) {
 
@@ -33,7 +32,7 @@ module.exports = {
 
                         } else {
 
-                            return res.json(collection);
+                            return res.json(franchise);
 
                         }
 
@@ -51,24 +50,21 @@ module.exports = {
 
                 } else {
 
-                    var needle = {
-                        id: req.body.id,
-                        user: req.body.user
-                    };
+                    var needle = { id: req.body.id };
 
-                    Collection.findOne(needle).exec(function (err, collection) {
+                    Franchise.findOne(needle).exec(function (err, franchise) {
 
                         if (err) {
 
                             return sails.config.environment === 'development' ? res.serverError(err) : res.serverError();
 
-                        } else if (typeof collection === 'undefined') {
+                        } else if (typeof franchise === 'undefined') {
 
-                            return res.badRequest('Original collection was not found.');
+                            return res.badRequest('Original franchise was not found.');
 
                         } else {
 
-                            Collection.update(needle, req.body).exec(function (err, updatedCollections) {
+                            Franchise.update(needle, req.body).exec(function (err, updatedFranchises) {
 
                                 if (err) {
 
@@ -76,7 +72,7 @@ module.exports = {
 
                                 } else {
 
-                                    return res.json(updatedCollections[0]);
+                                    return res.json(updatedFranchises[0]);
 
                                 }
 
@@ -98,24 +94,21 @@ module.exports = {
 
                 } else {
 
-                    var needle = {
-                        id: req.body.id,
-                        user: req.body.user
-                    };
+                    var needle = { id: req.body.id };
 
-                    Collection.findOne(needle).exec(function (err, collection) {
+                    Franchise.findOne(needle).exec(function (err, franchise) {
 
                         if (err) {
 
                             return sails.config.environment === 'development' ? res.serverError(err) : res.serverError();
 
-                        } else if (typeof collection === 'undefined') {
+                        } else if (typeof franchise === 'undefined') {
 
-                            res.forbidden('Original collection was not found.');
+                            res.forbidden('Original franchise was not found.');
 
                         } else {
 
-                            Collection.destroy(needle).exec(function (err) {
+                            Franchise.destroy(needle).exec(function (err) {
 
                                 if (err) {
 
