@@ -5,7 +5,9 @@
   "description": "a Sails application",
   "keywords": [],
   "dependencies": {
+    "bcrypt": "^0.8.5",
     "include-all": "~0.1.6",
+    "jsonwebtoken": "^5.7.0",
     "rc": "1.0.1",
     "request": "^2.71.0",
     "sails": "~0.12.3",
@@ -19,7 +21,7 @@
   "main": "app.js",
   "repository": {
     "type": "git",
-    "url": "git://github.com/karmasakshi/200mins-api.git"
+    "url": "git://github.com/200mins/200mins-api.git"
   },
   "author": "karmasakshi",
   "license": ""

@@ -7,8 +7,39 @@
 
 module.exports = {
 
-  attributes: {
+    attributes: {
 
-  }
+        /* --- ATTRIBUTES --- */
+
+        // Required
+
+        isFeatured: {
+            type: 'boolean',
+            defaultsTo: false
+        },
+
+        isFranchise: {
+            type: 'boolean',
+            defaultsTo: false
+        },
+
+        movies: {
+            type: 'array',
+            required: true
+        },
+
+        name: {
+            type: 'string',
+            required: true
+        },
+
+        /* --- RELATIONS --- */
+
+        author: {
+            model: 'user',
+            required: true
+        }
+
+    }
+
 };
-

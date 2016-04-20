@@ -1,5 +1,5 @@
 /**
- * Activity.js
+ * Review.js
  *
  * @description :: TODO: You might write a short summary of how this model works and what it represents here.
  * @docs        :: http://sailsjs.org/documentation/concepts/models-and-orm/models
@@ -13,19 +13,30 @@ module.exports = {
 
         // Required
 
-        activity: {
+        comment: {
+            type: 'text',
+            required: true
+        },
+
+        movie: {
             type: 'json',
             required: true
         },
 
-        supportingData: {
-            type: 'json',
+        rating: {
+            type: 'integer',
+            required: true
+        },
+
+        reaction: {
+            type: 'string',
+            enum: ['rofl', 'happy', 'scared', 'amazed', 'sad', 'annoyed'],
             required: true
         },
 
         /* --- RELATIONS --- */
 
-        user: {
+        author: {
             model: 'user',
             required: true
         }

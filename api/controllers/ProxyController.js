@@ -17,11 +17,11 @@ module.exports = {
 
             if (!error && response.statusCode === 200) {
 
-                var response = JSON.parse(body);
+                var data = JSON.parse(body);
 
                 if (response.status === 'ok') {
 
-                    res.json(response.data);
+                    res.json(data.data);
 
                 } else {
 
@@ -55,11 +55,11 @@ module.exports = {
 
                 if (!error && response.statusCode === 200) {
 
-                    var response = JSON.parse(body);
+                    var data = JSON.parse(body);
 
                     if (response.status === 'ok') {
 
-                        res.json(response.data);
+                        res.json(data.data);
 
                     } else {
 
@@ -93,11 +93,11 @@ module.exports = {
 
                 if (!error && response.statusCode === 200) {
 
-                    var response = JSON.parse(body);
+                    var data = JSON.parse(body);
 
                     if (response.status === 'ok') {
 
-                        res.json(response.data);
+                        res.json(data.data);
 
                     } else {
 
