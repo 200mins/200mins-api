@@ -46,6 +46,14 @@ module.exports.routes = {
   *                                                                          *
   ***************************************************************************/
 
+  'post /collection/create': 'CollectionController.create',
+  'post /collection/update': 'CollectionController.update',
+  'post /collection/delete': 'CollectionController.delete',
+
+  'post /franchise/create': 'FranchiseController.create',
+  'post /franchise/update': 'FranchiseController.update',
+  'post /franchise/delete': 'FranchiseController.delete',
+
   'get /user/checkUsername': 'UserController.checkUsername',
   'get /user/login': 'UserController.login',
   'post /user/register': 'UserController.register'

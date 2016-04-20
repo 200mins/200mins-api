@@ -9,7 +9,7 @@ module.exports = {
 
     download: function (req, res) {
 
-        if (!req.body.hasOwnProperty('movie') || !req.body.hasOwnProperty('quality')) {
+        if (!req.body.hasOwnProperty('quality')) {
 
             return res.badRequest();
 
@@ -58,270 +58,222 @@ module.exports = {
 
     like: function (req, res) {
 
-        if (!req.body.hasOwnProperty('movie')) {
+        var code = 'l';
 
-            return res.badRequest();
+        var createActivityNeedle = {
+            activity: {
+                code: code,
+                points: sails.config.ACTIVITIES[code].points,
+                reference: null,
+                string: sails.config.ACTIVITIES[code].string
+            },
+            movie: req.body.movie,
+            user: req.body.user
+        };
 
-        } else {
+        Activity.create(createActivityNeedle).exec(function (err, createdActivity) {
 
-            var code = 'l';
+            if (err) {
 
-            var createActivityNeedle = {
-                activity: {
-                    code: code,
-                    points: sails.config.ACTIVITIES[code].points,
-                    reference: null,
-                    string: sails.config.ACTIVITIES[code].string
-                },
-                movie: req.body.movie,
-                user: req.body.user
-            };
+                return sails.config.environment === 'development' ? res.serverError(err) : res.serverError();
 
-            Activity.create(createActivityNeedle).exec(function (err, createdActivity) {
+            } else {
 
-                if (err) {
+                res.ok();
 
-                    return sails.config.environment === 'development' ? res.serverError(err) : res.serverError();
+            }
 
-                } else {
-
-                    res.ok();
-
-                }
-
-            });
-
-        }
+        });
 
     },
 
     unlike: function (req, res) {
 
-        if (!req.body.hasOwnProperty('movie')) {
+        var findActivityNeedle = {
+            activity: {
+                code: 'l'
+            },
+            movie: req.body.movie,
+            user: req.body.user
+        };
 
-            return res.badRequest();
+        Activity.findOne(findActivityNeedle).exec(function (err, foundActivity) {
 
-        } else {
+            if (err) {
 
-            var findActivityNeedle = {
-                activity: {
-                    code: 'l'
-                },
-                movie: req.body.movie,
-                user: req.body.user
-            };
+                return sails.config.environment === 'development' ? res.serverError(err) : res.serverError();
 
-            Activity.findOne(findActivityNeedle).exec(function (err, foundActivity) {
+            } else if (typeof foundActivity === 'undefined') {
 
-                if (err) {
+                return res.forbidden('Original activity was not found.');
 
-                    return sails.config.environment === 'development' ? res.serverError(err) : res.serverError();
+            } else {
 
-                } else if (typeof foundActivity === 'undefined') {
+                Activity.destroy(findActivityNeedle).exec(function (err) {
 
-                    return res.forbidden('Original activity was not found.');
+                    if (err) {
 
-                } else {
-
-                    Activity.destroy(findActivityNeedle).exec(function (err) {
-
-                        if (err) {
-
-                            return sails.config.environment === 'development' ? res.serverError(err) : res.serverError();
+                        return sails.config.environment === 'development' ? res.serverError(err) : res.serverError();
 
 
-                        } else {
+                    } else {
 
-                            return res.ok();
+                        return res.ok();
 
-                        }
+                    }
 
-                    });
+                });
 
-                }
+            }
 
-            });
-
-        }
+        });
 
     },
 
     markWatch: function (req, res) {
 
-        if (!req.body.hasOwnProperty('movie')) {
+        var code = 'wn';
 
-            return res.badRequest();
+        var createActivityNeedle = {
+            activity: {
+                code: code,
+                points: sails.config.ACTIVITIES[code].points,
+                reference: null,
+                string: sails.config.ACTIVITIES[code].string,
+            },
+            movie: req.body.movie,
+            user: req.body.user
+        };
 
-        } else {
+        Activity.create(createActivityNeedle).exec(function (err, createdActivity) {
 
-            var code = 'wn';
+            if (err) {
 
-            var createActivityNeedle = {
-                activity: {
-                    code: code,
-                    points: sails.config.ACTIVITIES[code].points,
-                    reference: null,
-                    string: sails.config.ACTIVITIES[code].string,
-                },
-                movie: req.body.movie,
-                user: req.body.user
-            };
+                return sails.config.environment === 'development' ? res.serverError(err) : res.serverError();
 
-            Activity.create(createActivityNeedle).exec(function (err, createdActivity) {
+            } else {
 
-                if (err) {
+                res.ok();
 
-                    return sails.config.environment === 'development' ? res.serverError(err) : res.serverError();
+            }
 
-                } else {
-
-                    res.ok();
-
-                }
-
-            });
-
-        }
+        });
 
     },
 
     unmarkWatch: function (req, res) {
 
-        if (!req.body.hasOwnProperty('movie')) {
+        var findActivityNeedle = {
+            activity: {
+                code: 'wn'
+            },
+            movie: req.body.movie,
+            user: req.body.user
+        };
 
-            return res.badRequest();
+        Activity.findOne(findActivityNeedle).exec(function (err, foundActivity) {
 
-        } else {
+            if (err) {
 
-            var findActivityNeedle = {
-                activity: {
-                    code: 'wn'
-                },
-                movie: req.body.movie,
-                user: req.body.user
-            };
+                return sails.config.environment === 'development' ? res.serverError(err) : res.serverError();
 
-            Activity.findOne(findActivityNeedle).exec(function (err, foundActivity) {
+            } else if (typeof foundActivity === 'undefined') {
 
-                if (err) {
+                return res.forbidden('Original activity was not found.');
 
-                    return sails.config.environment === 'development' ? res.serverError(err) : res.serverError();
+            } else {
 
-                } else if (typeof foundActivity === 'undefined') {
+                Activity.destroy(findActivityNeedle).exec(function (err) {
 
-                    return res.forbidden('Original activity was not found.');
+                    if (err) {
 
-                } else {
+                        return sails.config.environment === 'development' ? res.serverError(err) : res.serverError();
 
-                    Activity.destroy(findActivityNeedle).exec(function (err) {
+                    } else {
 
-                        if (err) {
+                        return res.ok();
 
-                            return sails.config.environment === 'development' ? res.serverError(err) : res.serverError();
+                    }
 
-                        } else {
+                });
 
-                            return res.ok();
+            }
 
-                        }
-
-                    });
-
-                }
-
-            });
-
-        }
+        });
 
     },
 
     markWatched: function (req, res) {
 
-        if (!req.body.hasOwnProperty('movie')) {
+        var code = 'wy';
 
-            return res.badRequest();
+        var createActivityNeedle = {
+            activity: {
+                code: code,
+                points: sails.config.ACTIVITIES[code].points,
+                reference: null,
+                string: sails.config.ACTIVITIES[code].string
+            },
+            movie: req.body.movie,
+            user: req.body.user
+        };
 
-        } else {
+        Activity.create(createActivityNeedle).exec(function (err, createdActivity) {
 
-            var code = 'wy';
+            if (err) {
 
-            var createActivityNeedle = {
-                activity: {
-                    code: code,
-                    points: sails.config.ACTIVITIES[code].points,
-                    reference: null,
-                    string: sails.config.ACTIVITIES[code].string
-                },
-                movie: req.body.movie,
-                user: req.body.user
-            };
+                return sails.config.environment === 'development' ? res.serverError(err) : res.serverError();
 
-            Activity.create(createActivityNeedle).exec(function (err, createdActivity) {
+            } else {
 
-                if (err) {
+                res.ok();
 
-                    return sails.config.environment === 'development' ? res.serverError(err) : res.serverError();
+            }
 
-                } else {
-
-                    res.ok();
-
-                }
-
-            });
-
-        }
+        });
 
     },
 
     unmarkWatched: function (req, res) {
 
-        if (!req.body.hasOwnProperty('movie')) {
+        var findActivityNeedle = {
+            activity: {
+                code: 'wy'
+            },
+            movie: req.body.movie,
+            user: req.body.user
+        };
 
-            return res.badRequest();
+        Activity.findOne(findActivityNeedle).exec(function (err, foundActivity) {
 
-        } else {
+            if (err) {
 
-            var findActivityNeedle = {
-                activity: {
-                    code: 'wy'
-                },
-                movie: req.body.movie,
-                user: req.body.user
-            };
+                return sails.config.environment === 'development' ? res.serverError(err) : res.serverError();
 
-            Activity.findOne(findActivityNeedle).exec(function (err, foundActivity) {
+            } else if (typeof foundActivity === 'undefined') {
 
-                if (err) {
+                return res.forbidden('Original activity was not found.');
 
-                    return sails.config.environment === 'development' ? res.serverError(err) : res.serverError();
+            } else {
 
-                } else if (typeof foundActivity === 'undefined') {
+                Activity.destroy(findActivityNeedle).exec(function (err) {
 
-                    return res.forbidden('Original activity was not found.');
+                    if (err) {
 
-                } else {
-
-                    Activity.destroy(findActivityNeedle).exec(function (err) {
-
-                        if (err) {
-
-                            return sails.config.environment === 'development' ? res.serverError(err) : res.serverError();
+                        return sails.config.environment === 'development' ? res.serverError(err) : res.serverError();
 
 
-                        } else {
+                    } else {
 
-                            return res.ok();
+                        return res.ok();
 
-                        }
+                    }
 
-                    });
+                });
 
-                }
+            }
 
-            });
-
-        }
+        });
 
     },
 

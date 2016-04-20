@@ -49,8 +49,19 @@ module.exports.policies = {
 		// feed : ['isNiceToAnimals', 'hasRabbitFood']
   // }
 
+  ActivityController: {
+    '*': ['isAuthorized', 'cleanMovie']
+  },
+
+  CollectionController: {
+    'create': ['isAuthorized', 'cleanMovieArray'],
+    'update': ['isAuthorized', 'cleanMovieArray']
+  },
+
   FranchiseController: {
-    '*': ['isAuthorized', 'isStaff']
+    'create': ['isAuthorized', 'isStaff', 'cleanMovieArray'],
+    'update': ['isAuthorized', 'isStaff', 'cleanMovieArray'],
+    'delete': ['isAuthorized', 'isStaff']
   },
 
   UserController: {
