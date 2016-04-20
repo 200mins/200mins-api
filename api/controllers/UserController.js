@@ -21,7 +21,7 @@ module.exports = {
 
                 if (err) {
 
-                    return res.serverError();
+                    return sails.config.environment === 'development' ? res.serverError(err) : res.serverError();
 
                 } else if (typeof user === 'undefined') {
 
@@ -57,7 +57,7 @@ module.exports = {
 
                 if (err) {
 
-                    return res.serverError();
+                    return sails.config.environment === 'development' ? res.serverError(err) : res.serverError();
 
                 } else if (typeof user === 'undefined') {
 
@@ -71,7 +71,7 @@ module.exports = {
 
                         if (err) {
 
-                            return res.serverError();
+                            return sails.config.environment === 'development' ? res.serverError(err) : res.serverError();
 
                         } else {
 
@@ -119,7 +119,7 @@ module.exports = {
 
                 if (err) {
 
-                    return res.serverError();
+                    return sails.config.environment === 'development' ? res.serverError(err) : res.serverError();
 
                 } else {
 

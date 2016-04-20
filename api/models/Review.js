@@ -13,11 +13,6 @@ module.exports = {
 
         // Required
 
-        comment: {
-            type: 'text',
-            required: true
-        },
-
         movie: {
             type: 'json',
             required: true
@@ -25,6 +20,8 @@ module.exports = {
 
         rating: {
             type: 'integer',
+            min: 0,
+            max: 10,
             required: true
         },
 
@@ -34,9 +31,15 @@ module.exports = {
             required: true
         },
 
+        // Optional
+
+        comment: {
+            type: 'text'
+        },
+
         /* --- RELATIONS --- */
 
-        author: {
+        user: {
             model: 'user',
             required: true
         }

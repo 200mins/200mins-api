@@ -28,7 +28,7 @@ module.exports = {
         },
 
         points: {
-            type: 'number',
+            type: 'integer',
             defaultsTo: 0,
             min: 0
         },
@@ -60,12 +60,12 @@ module.exports = {
 
         collections: {
             collection: 'collection',
-            via: 'author'
+            via: 'user'
         },
 
         reviews: {
             collection: 'review',
-            via: 'author'
+            via: 'user'
         }
 
     },

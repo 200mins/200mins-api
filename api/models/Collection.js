@@ -35,7 +35,7 @@ module.exports = {
 
         /* --- RELATIONS --- */
 
-        author: {
+        user: {
             model: 'user',
             required: true
         }

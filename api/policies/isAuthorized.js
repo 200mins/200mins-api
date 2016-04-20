@@ -26,7 +26,7 @@ module.exports = function isAuthorized(req, res, next) {
 
                 if (err) {
 
-                    return res.serverError();
+                    return sails.config.environment === 'development' ? res.serverError(err) : res.serverError();
 
                 } else {
 
@@ -36,29 +36,17 @@ module.exports = function isAuthorized(req, res, next) {
 
                     } else {
 
-                        var bcrypt = require('bcrypt');
+                        if (token.password !== user.password) {
 
-                        bcrypt.compare(token.password, user.password, function (err, isSame) {
+                            return res.forbidden();
 
-                            if (err) {
+                        } else {
 
-                                return res.serverError();
+                            req.body.user = user.id;
 
-                            } else {
+                            return next();
 
-                                if (!isSame) {
-
-                                    return res.forbidden('Wrong password.');
-
-                                } else {
-
-                                    return next();
-
-                                }
-
-                            }
-
-                        });
+                        }
 
                     }
 
