@@ -20,9 +20,9 @@ module.exports = function (req, res, next) {
 
         } else {
 
-            var needle = { id: token.id };
+            var findUserNeedle = { id: token.id };
 
-            User.findOne(needle).exec(function (err, user) {
+            User.findOne(findUserNeedle).exec(function (err, foundUser) {
 
                 if (err) {
 
@@ -30,19 +30,19 @@ module.exports = function (req, res, next) {
 
                 } else {
 
-                    if (typeof user === 'undefined') {
+                    if (typeof foundUser === 'undefined') {
 
                         return res.forbidden('We don\'t know you.');
 
                     } else {
 
-                        if (token.password !== user.password) {
+                        if (token.password !== foundUser.password) {
 
                             return res.forbidden();
 
                         } else {
 
-                            req.body.user = user.id;
+                            req.body.user = foundUser.id;
 
                             return next();
 

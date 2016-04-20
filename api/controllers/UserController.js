@@ -15,15 +15,15 @@ module.exports = {
 
         } else {
 
-            var needle = { username: req.query.username };
+            var findUserNeedle = { username: req.query.username };
 
-            User.findOne(needle).exec(function (err, user) {
+            User.findOne(findUserNeedle).exec(function (err, foundUser) {
 
                 if (err) {
 
                     return sails.config.environment === 'development' ? res.serverError(err) : res.serverError();
 
-                } else if (typeof user === 'undefined') {
+                } else if (typeof foundUser === 'undefined') {
 
                     var response = { available: true };
 
@@ -51,15 +51,15 @@ module.exports = {
 
         } else {
 
-            var needle = { username: req.query.username };
+            var findUserNeedle = { username: req.query.username };
 
-            User.findOne(needle).exec(function (err, user) {
+            User.findOne(findUserNeedle).exec(function (err, foundUser) {
 
                 if (err) {
 
                     return sails.config.environment === 'development' ? res.serverError(err) : res.serverError();
 
-                } else if (typeof user === 'undefined') {
+                } else if (typeof foundUser === 'undefined') {
 
                     return res.forbidden('We don\'t know you.');
 
@@ -67,7 +67,7 @@ module.exports = {
 
                     var bcrypt = require('bcrypt');
 
-                    bcrypt.compare(req.query.password, user.password, function (err, isSame) {
+                    bcrypt.compare(req.query.password, foundUser.password, function (err, isSame) {
 
                         if (err) {
 
@@ -82,8 +82,8 @@ module.exports = {
                             } else {
 
                                 var response = {
-                                    token: JWTService.generate({ id: user.id, password: user.password }),
-                                    user: user
+                                    token: JWTService.generate({ id: foundUser.id, password: foundUser.password }),
+                                    user: foundUser
                                 };
 
                                 return res.json(response);
@@ -109,13 +109,13 @@ module.exports = {
 
         } else {
 
-            var needle = {
+            var createUserNeedle = {
                 username: req.body.username,
                 password: req.body.password,
                 avatar: 'https://api.adorable.io/avatars/285/' + req.body.username
             };
 
-            User.create(needle).exec(function (err, user) {
+            User.create(createUserNeedle).exec(function (err, createdUser) {
 
                 if (err) {
 
@@ -124,8 +124,8 @@ module.exports = {
                 } else {
 
                     var response = {
-                        token: JWTService.generate({ id: user.id, password: user.password }),
-                        user: user
+                        token: JWTService.generate({ id: createdUser.id, password: createdUser.password }),
+                        user: createdUser
                     };
 
                     return res.json(response);

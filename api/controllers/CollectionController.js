@@ -19,13 +19,13 @@ module.exports = {
 
                 } else {
 
-                    var needle = {
+                    var findCollectionNeedle = {
                         movies: req.body.movies,
                         name: req.body.name,
                         user: req.body.user
                     };
 
-                    Collection.create(needle).exec(function (err, collection) {
+                    Collection.create(findCollectionNeedle).exec(function (err, createdCollection) {
 
                         if (err) {
 
@@ -33,7 +33,7 @@ module.exports = {
 
                         } else {
 
-                            return res.json(collection);
+                            return res.json(createdCollection);
 
                         }
 
@@ -51,24 +51,26 @@ module.exports = {
 
                 } else {
 
-                    var needle = {
-                        id: req.body.id,
-                        user: req.body.user
-                    };
+                    var findCollectionNeedle = { id: req.body.id };
 
-                    Collection.findOne(needle).exec(function (err, collection) {
+                    Collection.findOne(findCollectionNeedle).exec(function (err, foundCollection) {
 
                         if (err) {
 
                             return sails.config.environment === 'development' ? res.serverError(err) : res.serverError();
 
-                        } else if (typeof collection === 'undefined') {
+                        } else if (typeof foundCollection === 'undefined') {
 
                             return res.badRequest('Original collection was not found.');
 
                         } else {
 
-                            Collection.update(needle, req.body).exec(function (err, updatedCollections) {
+                            var updatedCollection = {
+                                movies: req.body.movies,
+                                name: req.body.name
+                            };
+
+                            Collection.update(findCollectionNeedle, updatedCollection).exec(function (err, updatedCollections) {
 
                                 if (err) {
 
@@ -98,24 +100,24 @@ module.exports = {
 
                 } else {
 
-                    var needle = {
+                    var findCollectionNeedle = {
                         id: req.body.id,
                         user: req.body.user
                     };
 
-                    Collection.findOne(needle).exec(function (err, collection) {
+                    Collection.findOne(findCollectionNeedle).exec(function (err, foundCollection) {
 
                         if (err) {
 
                             return sails.config.environment === 'development' ? res.serverError(err) : res.serverError();
 
-                        } else if (typeof collection === 'undefined') {
+                        } else if (typeof foundCollection === 'undefined') {
 
                             res.forbidden('Original collection was not found.');
 
                         } else {
 
-                            Collection.destroy(needle).exec(function (err) {
+                            Collection.destroy(findCollectionNeedle).exec(function (err) {
 
                                 if (err) {
 

@@ -1,8 +1,8 @@
 module.exports = function (req, res, next) {
 
-    var needle = { id: req.body.user };
+    var findUserNeedle = { id: req.body.user };
 
-    User.findOne(needle).exec(function (err, user) {
+    User.findOne(findUserNeedle).exec(function (err, foundUser) {
 
         if (err) {
 
@@ -10,7 +10,7 @@ module.exports = function (req, res, next) {
 
         } else {
 
-            if (user.type !== 'staff') {
+            if (foundUser.type !== 'staff') {
 
                 return res.forbidden('You must be a 200mins staff to perform this action.');
 

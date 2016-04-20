@@ -19,12 +19,12 @@ module.exports = {
 
                 } else {
 
-                    var needle = {
+                    var createFranchiseNeedle = {
                         movies: req.body.movies,
                         name: req.body.name
                     };
 
-                    Franchise.create(needle).exec(function (err, franchise) {
+                    Franchise.create(createFranchiseNeedle).exec(function (err, createdFranchise) {
 
                         if (err) {
 
@@ -32,7 +32,7 @@ module.exports = {
 
                         } else {
 
-                            return res.json(franchise);
+                            return res.json(createdFranchise);
 
                         }
 
@@ -50,21 +50,26 @@ module.exports = {
 
                 } else {
 
-                    var needle = { id: req.body.id };
+                    var findFranchiseNeedle = { id: req.body.id };
 
-                    Franchise.findOne(needle).exec(function (err, franchise) {
+                    Franchise.findOne(findFranchiseNeedle).exec(function (err, foundFranchise) {
 
                         if (err) {
 
                             return sails.config.environment === 'development' ? res.serverError(err) : res.serverError();
 
-                        } else if (typeof franchise === 'undefined') {
+                        } else if (typeof foundFranchise === 'undefined') {
 
                             return res.badRequest('Original franchise was not found.');
 
                         } else {
 
-                            Franchise.update(needle, req.body).exec(function (err, updatedFranchises) {
+                            var updatedFranchise = {
+                                movies: req.body.movies,
+                                name: req.body.name
+                            };
+
+                            Franchise.update(findFranchiseNeedle, updatedFranchise).exec(function (err, updatedFranchises) {
 
                                 if (err) {
 
@@ -94,21 +99,21 @@ module.exports = {
 
                 } else {
 
-                    var needle = { id: req.body.id };
+                    var findFranchiseNeedle = { id: req.body.id };
 
-                    Franchise.findOne(needle).exec(function (err, franchise) {
+                    Franchise.findOne(findFranchiseNeedle).exec(function (err, foundFranchise) {
 
                         if (err) {
 
                             return sails.config.environment === 'development' ? res.serverError(err) : res.serverError();
 
-                        } else if (typeof franchise === 'undefined') {
+                        } else if (typeof foundFranchise === 'undefined') {
 
                             res.forbidden('Original franchise was not found.');
 
                         } else {
 
-                            Franchise.destroy(needle).exec(function (err) {
+                            Franchise.destroy(findFranchiseNeedle).exec(function (err) {
 
                                 if (err) {
 

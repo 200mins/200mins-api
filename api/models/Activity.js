@@ -15,12 +15,25 @@ module.exports = {
 
         activity: {
             type: 'json',
+
+            /*
+
+            {
+                code: null,
+                points: 0,
+                reference: null,
+                string: null,
+            }
+
+            */
+
             required: true
         },
 
-        supportingData: {
-            type: 'json',
-            required: true
+        // Optional
+
+        movie: {
+            type: 'json'
         },
 
         /* --- RELATIONS --- */
