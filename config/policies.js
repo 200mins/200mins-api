@@ -64,6 +64,11 @@ module.exports.policies = {
     'delete': ['isAuthorized', 'isStaff']
   },
 
+  ReviewController: {
+    'create': ['isAuthorized', 'cleanMovie'],
+    'update': ['isAuthorized', 'cleanMovie']
+  },
+
   UserController: {
     'login': true,
     'register': true

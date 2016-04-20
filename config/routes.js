@@ -54,6 +54,10 @@ module.exports.routes = {
   'post /franchise/update': 'FranchiseController.update',
   'post /franchise/delete': 'FranchiseController.delete',
 
+  'post /review/create': 'ReviewController.create',
+  'post /review/update': 'ReviewController.update',
+  'post /review/delete': 'ReviewController.delete',
+
   'get /user/checkUsername': 'UserController.checkUsername',
   'get /user/login': 'UserController.login',
   'post /user/register': 'UserController.register'
