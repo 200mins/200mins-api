@@ -38,7 +38,7 @@ module.exports = function (req, res, next) {
 
                         if (token.password !== foundUser.password) {
 
-                            return res.forbidden();
+                            return res.forbidden('Wrong password.');
 
                         } else {
 
