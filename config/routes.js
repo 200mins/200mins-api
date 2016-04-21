@@ -70,7 +70,6 @@ module.exports.routes = {
   'post /review/delete': 'ReviewController.delete',
   'post /review/update': 'ReviewController.update',
 
-  'get /user/checkusername': 'UserController.checkUsername',
   'get /user/login': 'UserController.login',
   'post /user/register': 'UserController.register'
 

@@ -7,42 +7,6 @@
 
 module.exports = {
 
-    checkUsername: function (req, res) {
-
-        if (!req.query.hasOwnProperty('username')) {
-
-            return res.badRequest();
-
-        } else {
-
-            var findUserNeedle = {username: req.query.username};
-
-            User.findOne(findUserNeedle).exec(function (err, foundUser) {
-
-                if (err) {
-
-                    return sails.config.environment === 'development' ? res.serverError(err) : res.serverError();
-
-                } else if (typeof foundUser === 'undefined') {
-
-                    var response = {available: true};
-
-                    return res.json(response);
-
-                } else {
-
-                    var response = {available: false};
-
-                    return res.json(response);
-
-                }
-
-            });
-
-        }
-
-    },
-
     login: function (req, res) {
 
         if (!req.query.hasOwnProperty('username') || !req.query.hasOwnProperty('password')) {
