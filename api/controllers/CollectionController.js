@@ -39,6 +39,53 @@ module.exports = {
 
     },
 
+    delete: function (req, res) {
+
+        if (!req.body.hasOwnProperty('id')) {
+
+            return res.badRequest();
+
+        } else {
+
+            var findCollectionNeedle = {
+                id: req.body.id,
+                user: req.body.user
+            };
+
+            Collection.findOne(findCollectionNeedle).exec(function (err, foundCollection) {
+
+                if (err) {
+
+                    return sails.config.environment === 'development' ? res.serverError(err) : res.serverError();
+
+                } else if (typeof foundCollection === 'undefined') {
+
+                    res.forbidden('Original collection was not found.');
+
+                } else {
+
+                    Collection.destroy(findCollectionNeedle).exec(function (err) {
+
+                        if (err) {
+
+                            return sails.config.environment === 'development' ? res.serverError(err) : res.serverError();
+
+                        } else {
+
+                            return res.ok();
+
+                        }
+
+                    });
+
+                }
+
+            });
+
+        }
+
+    },
+
     update: function (req, res) {
 
         if (!req.body.hasOwnProperty('id') || !req.body.hasOwnProperty('name')) {
@@ -75,53 +122,6 @@ module.exports = {
                         } else {
 
                             return res.json(updatedCollections[0]);
-
-                        }
-
-                    });
-
-                }
-
-            });
-
-        }
-
-    },
-
-    delete: function (req, res) {
-
-        if (!req.body.hasOwnProperty('id')) {
-
-            return res.badRequest();
-
-        } else {
-
-            var findCollectionNeedle = {
-                id: req.body.id,
-                user: req.body.user
-            };
-
-            Collection.findOne(findCollectionNeedle).exec(function (err, foundCollection) {
-
-                if (err) {
-
-                    return sails.config.environment === 'development' ? res.serverError(err) : res.serverError();
-
-                } else if (typeof foundCollection === 'undefined') {
-
-                    res.forbidden('Original collection was not found.');
-
-                } else {
-
-                    Collection.destroy(findCollectionNeedle).exec(function (err) {
-
-                        if (err) {
-
-                            return sails.config.environment === 'development' ? res.serverError(err) : res.serverError();
-
-                        } else {
-
-                            return res.ok();
 
                         }
 

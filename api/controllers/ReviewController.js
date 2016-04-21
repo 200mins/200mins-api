@@ -90,6 +90,75 @@ module.exports = {
 
     },
 
+    delete: function (req, res) {
+
+        if (!req.body.hasOwnProperty('id')) {
+
+            return res.badRequest();
+
+        } else {
+
+            var findReviewNeedle = {
+                id: req.body.id,
+                user: req.body.user
+            };
+
+            Review.findOne(findReviewNeedle).exec(function (err, foundReview) {
+
+                if (err) {
+
+                    return sails.config.environment === 'development' ? res.serverError(err) : res.serverError();
+
+                } else if (typeof foundReview === 'undefined') {
+
+                    res.forbidden('Original review was not found.');
+
+                } else {
+
+                    Review.destroy(findReviewNeedle).exec(function (err) {
+
+                        if (err) {
+
+                            return sails.config.environment === 'development' ? res.serverError(err) : res.serverError();
+
+                        } else {
+
+                            var findActivityNeedle = {
+                                activity: {
+                                    code: 'r',
+                                    reference: findReviewNeedle.id
+                                },
+                                user: findReviewNeedle.user
+                            };
+
+                            Activity.destroy(findActivityNeedle).exec(function (err) {
+
+                                if (err) {
+
+                                    return sails.config.environment === 'development' ? res.serverError(err) : res.serverError();
+
+                                    // Bug: Activity not recorded
+
+                                } else {
+
+                                    return res.ok();
+
+                                }
+
+                            });
+
+                        }
+
+                    });
+
+                }
+
+            });
+
+        }
+
+    },
+
     update: function (req, res) {
 
         if (!req.body.hasOwnProperty('comment') || !req.body.hasOwnProperty('id') || !req.body.hasOwnProperty('rating') || !req.body.hasOwnProperty('reaction')) {
@@ -169,75 +238,6 @@ module.exports = {
                                         }
 
                                     });
-
-                                }
-
-                            });
-
-                        }
-
-                    });
-
-                }
-
-            });
-
-        }
-
-    },
-
-    delete: function (req, res) {
-
-        if (!req.body.hasOwnProperty('id')) {
-
-            return res.badRequest();
-
-        } else {
-
-            var findReviewNeedle = {
-                id: req.body.id,
-                user: req.body.user
-            };
-
-            Review.findOne(findReviewNeedle).exec(function (err, foundReview) {
-
-                if (err) {
-
-                    return sails.config.environment === 'development' ? res.serverError(err) : res.serverError();
-
-                } else if (typeof foundReview === 'undefined') {
-
-                    res.forbidden('Original review was not found.');
-
-                } else {
-
-                    Review.destroy(findReviewNeedle).exec(function (err) {
-
-                        if (err) {
-
-                            return sails.config.environment === 'development' ? res.serverError(err) : res.serverError();
-
-                        } else {
-
-                            var findActivityNeedle = {
-                                activity: {
-                                    code: 'r',
-                                    reference: findReviewNeedle.id
-                                },
-                                user: findReviewNeedle.user
-                            };
-
-                            Activity.destroy(findActivityNeedle).exec(function (err) {
-
-                                if (err) {
-
-                                    return sails.config.environment === 'development' ? res.serverError(err) : res.serverError();
-
-                                    // Bug: Activity not recorded
-
-                                } else {
-
-                                    return res.ok();
 
                                 }
 

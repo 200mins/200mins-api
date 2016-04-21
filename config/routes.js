@@ -46,19 +46,31 @@ module.exports.routes = {
   *                                                                          *
   ***************************************************************************/
 
+  'post /activity/download': 'ActivityController.download',
+  'post /activity/like': 'ActivityController.like',
+  'post /activity/unlike': 'ActivityController.unlike',
+  'post /activity/markwatch': 'ActivityController.markWatch',
+  'post /activity/unmarkwatch': 'ActivityController.unmarkWatch',
+  'post /activity/markwatched': 'ActivityController.markWatched',
+  'post /activity/unmarkwatched': 'ActivityController.unmarkWatched',
+
   'post /collection/create': 'CollectionController.create',
-  'post /collection/update': 'CollectionController.update',
   'post /collection/delete': 'CollectionController.delete',
+  'post /collection/update': 'CollectionController.update',
 
   'post /franchise/create': 'FranchiseController.create',
-  'post /franchise/update': 'FranchiseController.update',
   'post /franchise/delete': 'FranchiseController.delete',
+  'post /franchise/update': 'FranchiseController.update',
+
+  'get /proxy/listmovies': 'ProxyController.list_movies',
+  'get /proxy/moviedetails': 'ProxyController.movie_details',
+  'get /proxy/moviesuggestions': 'ProxyController.movie_suggestions',
 
   'post /review/create': 'ReviewController.create',
-  'post /review/update': 'ReviewController.update',
   'post /review/delete': 'ReviewController.delete',
+  'post /review/update': 'ReviewController.update',
 
-  'get /user/checkUsername': 'UserController.checkUsername',
+  'get /user/checkusername': 'UserController.checkUsername',
   'get /user/login': 'UserController.login',
   'post /user/register': 'UserController.register'
 

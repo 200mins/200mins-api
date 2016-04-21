@@ -38,6 +38,50 @@ module.exports = {
 
     },
 
+    delete: function (req, res) {
+
+        if (!req.body.hasOwnProperty('id')) {
+
+            return res.badRequest();
+
+        } else {
+
+            var findFranchiseNeedle = {id: req.body.id};
+
+            Franchise.findOne(findFranchiseNeedle).exec(function (err, foundFranchise) {
+
+                if (err) {
+
+                    return sails.config.environment === 'development' ? res.serverError(err) : res.serverError();
+
+                } else if (typeof foundFranchise === 'undefined') {
+
+                    res.forbidden('Original franchise was not found.');
+
+                } else {
+
+                    Franchise.destroy(findFranchiseNeedle).exec(function (err) {
+
+                        if (err) {
+
+                            return sails.config.environment === 'development' ? res.serverError(err) : res.serverError();
+
+                        } else {
+
+                            return res.ok();
+
+                        }
+
+                    });
+
+                }
+
+            });
+
+        }
+
+    },
+
     update: function (req, res) {
 
         if (!req.body.hasOwnProperty('id') || !req.body.hasOwnProperty('name')) {
@@ -74,50 +118,6 @@ module.exports = {
                         } else {
 
                             return res.json(updatedFranchises[0]);
-
-                        }
-
-                    });
-
-                }
-
-            });
-
-        }
-
-    },
-
-    delete: function (req, res) {
-
-        if (!req.body.hasOwnProperty('id')) {
-
-            return res.badRequest();
-
-        } else {
-
-            var findFranchiseNeedle = {id: req.body.id};
-
-            Franchise.findOne(findFranchiseNeedle).exec(function (err, foundFranchise) {
-
-                if (err) {
-
-                    return sails.config.environment === 'development' ? res.serverError(err) : res.serverError();
-
-                } else if (typeof foundFranchise === 'undefined') {
-
-                    res.forbidden('Original franchise was not found.');
-
-                } else {
-
-                    Franchise.destroy(findFranchiseNeedle).exec(function (err) {
-
-                        if (err) {
-
-                            return sails.config.environment === 'development' ? res.serverError(err) : res.serverError();
-
-                        } else {
-
-                            return res.ok();
 
                         }
 
