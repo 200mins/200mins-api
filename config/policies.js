@@ -64,6 +64,10 @@ module.exports.policies = {
     'delete': ['isAuthorized', 'isStaff']
   },
 
+  ProxyController: {
+      '*': true
+  },
+
   ReviewController: {
     'create': ['isAuthorized', 'cleanMovie'],
     'update': ['isAuthorized', 'cleanMovie']

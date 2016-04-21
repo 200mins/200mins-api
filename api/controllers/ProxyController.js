@@ -13,25 +13,25 @@ module.exports = {
 
         var url = 'https://yts.ag/api/v2/list_movies.json' + UtilityService.objectToQueryString(req.query);
 
-        request(url, function (error, response, body) {
+        request(url, function (err, response, body) {
 
-            if (!error && response.statusCode === 200) {
+            if (!err && response.statusCode === 200) {
 
                 var data = JSON.parse(body);
 
-                if (response.status === 'ok') {
+                if (data.status === 'ok') {
 
                     res.json(data.data);
 
                 } else {
 
-                    res.serverError();
+                    return sails.config.environment === 'development' ? res.serverError(err) : res.serverError();
 
                 }
 
             } else {
 
-                res.serverError();
+                return sails.config.environment === 'development' ? res.serverError(err) : res.serverError();
 
             }
 
@@ -51,25 +51,25 @@ module.exports = {
 
             var url = 'https://yts.ag/api/v2/movie_details.json' + UtilityService.objectToQueryString(params);
 
-            request(url, function (error, response, body) {
+            request(url, function (err, response, body) {
 
-                if (!error && response.statusCode === 200) {
+                if (!err && response.statusCode === 200) {
 
                     var data = JSON.parse(body);
 
-                    if (response.status === 'ok') {
+                    if (data.status === 'ok') {
 
                         res.json(data.data);
 
                     } else {
 
-                        res.serverError();
+                        return sails.config.environment === 'development' ? res.serverError(err) : res.serverError();
 
                     }
 
                 } else {
 
-                    res.serverError();
+                    return sails.config.environment === 'development' ? res.serverError(err) : res.serverError();
 
                 }
 
@@ -89,25 +89,25 @@ module.exports = {
 
             var url = 'https://yts.ag/api/v2/movie_suggestions.json?movie_id=' + req.query.movie_id;
 
-            request(url, function (error, response, body) {
+            request(url, function (err, response, body) {
 
-                if (!error && response.statusCode === 200) {
+                if (!err && response.statusCode === 200) {
 
                     var data = JSON.parse(body);
 
-                    if (response.status === 'ok') {
+                    if (data.status === 'ok') {
 
                         res.json(data.data);
 
                     } else {
 
-                        res.serverError();
+                        return sails.config.environment === 'development' ? res.serverError() : res.serverError();
 
                     }
 
                 } else {
 
-                    res.serverError();
+                    return sails.config.environment === 'development' ? res.serverError(err) : res.serverError();
 
                 }
 
