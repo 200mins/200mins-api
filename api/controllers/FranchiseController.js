@@ -46,7 +46,7 @@ module.exports = {
 
         } else {
 
-            var findFranchiseNeedle = { id: req.body.id };
+            var findFranchiseNeedle = {id: req.body.id};
 
             Franchise.findOne(findFranchiseNeedle).exec(function (err, foundFranchise) {
 
@@ -56,7 +56,7 @@ module.exports = {
 
                 } else if (typeof foundFranchise === 'undefined') {
 
-                    return res.badRequest('Original franchise was not found.');
+                    return res.forbidden('Original franchise was not found.');
 
                 } else {
 
@@ -95,7 +95,7 @@ module.exports = {
 
         } else {
 
-            var findFranchiseNeedle = { id: req.body.id };
+            var findFranchiseNeedle = {id: req.body.id};
 
             Franchise.findOne(findFranchiseNeedle).exec(function (err, foundFranchise) {
 

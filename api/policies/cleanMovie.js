@@ -1,6 +1,6 @@
 module.exports = function (req, res, next) {
 
-    if(!req.body.hasOwnProperty('movie')){
+    if (!req.body.hasOwnProperty('movie')) {
 
         return res.badRequest();
 
@@ -8,7 +8,7 @@ module.exports = function (req, res, next) {
 
         var cleanedMovie = MovieService.clean(req.body.movie);
 
-        if(!cleanedMovie){
+        if (!cleanedMovie) {
 
             return res.badRequest();
 
@@ -22,4 +22,4 @@ module.exports = function (req, res, next) {
 
     }
 
-}
+};

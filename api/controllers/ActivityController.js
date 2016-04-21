@@ -139,7 +139,7 @@ module.exports = {
                 code: code,
                 points: sails.config.ACTIVITIES[code].points,
                 reference: null,
-                string: sails.config.ACTIVITIES[code].string,
+                string: sails.config.ACTIVITIES[code].string
             },
             movie: req.body.movie,
             user: req.body.user
@@ -275,6 +275,6 @@ module.exports = {
 
         });
 
-    },
+    }
 
 };

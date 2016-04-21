@@ -13,6 +13,12 @@ module.exports = {
 
         // Unique
 
+        email: {
+            type: 'email',
+            required: true,
+            unique: true
+        },
+
         username: {
             type: 'string',
             required: true,
@@ -44,11 +50,6 @@ module.exports = {
         avatar: {
             type: 'string',
             url: true
-        },
-
-        email: {
-            type: 'email',
-            unique: true
         },
 
         /* --- RELATIONS --- */

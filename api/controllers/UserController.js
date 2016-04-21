@@ -15,7 +15,7 @@ module.exports = {
 
         } else {
 
-            var findUserNeedle = { username: req.query.username };
+            var findUserNeedle = {username: req.query.username};
 
             User.findOne(findUserNeedle).exec(function (err, foundUser) {
 
@@ -25,13 +25,13 @@ module.exports = {
 
                 } else if (typeof foundUser === 'undefined') {
 
-                    var response = { available: true };
+                    var response = {available: true};
 
                     return res.json(response);
 
                 } else {
 
-                    var response = { available: false };
+                    var response = {available: false};
 
                     return res.json(response);
 
@@ -51,7 +51,7 @@ module.exports = {
 
         } else {
 
-            var findUserNeedle = { username: req.query.username };
+            var findUserNeedle = {username: req.query.username};
 
             User.findOne(findUserNeedle).exec(function (err, foundUser) {
 
@@ -82,7 +82,7 @@ module.exports = {
                             } else {
 
                                 var response = {
-                                    token: JWTService.generate({ id: foundUser.id, password: foundUser.password }),
+                                    token: JWTService.generate({id: foundUser.id, password: foundUser.password}),
                                     user: foundUser
                                 };
 
@@ -103,19 +103,63 @@ module.exports = {
 
     register: function (req, res) {
 
-        if (!req.body.hasOwnProperty('username') || !req.body.hasOwnProperty('password')) {
+        if (!req.body.hasOwnProperty('email') || !req.body.hasOwnProperty('username') || !req.body.hasOwnProperty('password')) {
 
             return res.badRequest();
 
         } else {
 
-            var createUserNeedle = {
-                username: req.body.username,
-                password: req.body.password,
-                avatar: 'https://api.adorable.io/avatars/285/' + req.body.username
-            };
+            async.parallel({
 
-            User.create(createUserNeedle).exec(function (err, createdUser) {
+                findUserByEmail: function (callback) {
+
+                    var findUserNeedle = {email: req.body.email};
+
+                    User.findOne(findUserNeedle).exec(function (err, foundUser) {
+
+                        if (err) {
+
+                            callback(err);
+
+                        } else if (typeof foundUser === 'undefined') {
+
+                            callback(null, false);
+
+                        } else {
+
+                            callback(null, 'email');
+
+                        }
+
+                    });
+
+                },
+
+                findUserByUsername: function (callback) {
+
+                    var findUserNeedle = {username: req.body.username};
+
+                    User.findOne(findUserNeedle).exec(function (err, foundUser) {
+
+                        if (err) {
+
+                            callback(err);
+
+                        } else if (typeof foundUser === 'undefined') {
+
+                            callback(null, false);
+
+                        } else {
+
+                            callback(null, 'username');
+
+                        }
+
+                    });
+
+                }
+
+            }, function (err, result) {
 
                 if (err) {
 
@@ -123,12 +167,41 @@ module.exports = {
 
                 } else {
 
-                    var response = {
-                        token: JWTService.generate({ id: createdUser.id, password: createdUser.password }),
-                        user: createdUser
+                    for (var key in result) {
+
+                        if (result[key] !== false) {
+
+                            return res.forbidden('A user with that ' + result[key] + ' exists.');
+
+                        }
+
+                    }
+
+                    var createUserNeedle = {
+                        email: req.body.email,
+                        username: req.body.username,
+                        password: req.body.password,
+                        avatar: 'https://api.adorable.io/avatars/285/' + req.body.username
                     };
 
-                    return res.json(response);
+                    User.create(createUserNeedle).exec(function (err, createdUser) {
+
+                        if (err) {
+
+                            return sails.config.environment === 'development' ? res.serverError(err) : res.serverError();
+
+                        } else {
+
+                            var response = {
+                                token: JWTService.generate({id: createdUser.id, password: createdUser.password}),
+                                user: createdUser
+                            };
+
+                            return res.json(response);
+
+                        }
+
+                    });
 
                 }
 

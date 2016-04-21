@@ -111,7 +111,7 @@ module.exports = {
 
                 } else if (typeof foundReview === 'undefined') {
 
-                    return res.badRequest('Original review was not found.');
+                    return res.forbidden('Original review was not found.');
 
                 } else {
 

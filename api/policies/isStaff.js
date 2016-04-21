@@ -1,6 +1,6 @@
 module.exports = function (req, res, next) {
 
-    var findUserNeedle = { id: req.body.user };
+    var findUserNeedle = {id: req.body.user};
 
     User.findOne(findUserNeedle).exec(function (err, foundUser) {
 
@@ -24,4 +24,4 @@ module.exports = function (req, res, next) {
 
     });
 
-}
+};

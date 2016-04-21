@@ -20,7 +20,7 @@ module.exports = function (req, res, next) {
 
         } else {
 
-            var findUserNeedle = { id: token.id };
+            var findUserNeedle = {id: token.id};
 
             User.findOne(findUserNeedle).exec(function (err, foundUser) {
 
@@ -58,4 +58,4 @@ module.exports = function (req, res, next) {
 
     });
 
-}
+};

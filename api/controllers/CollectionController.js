@@ -15,13 +15,13 @@ module.exports = {
 
         } else {
 
-            var findCollectionNeedle = {
+            var createCollectionNeedle = {
                 movies: req.body.movies,
                 name: req.body.name,
                 user: req.body.user
             };
 
-            Collection.create(findCollectionNeedle).exec(function (err, createdCollection) {
+            Collection.create(createCollectionNeedle).exec(function (err, createdCollection) {
 
                 if (err) {
 
@@ -47,7 +47,7 @@ module.exports = {
 
         } else {
 
-            var findCollectionNeedle = { id: req.body.id };
+            var findCollectionNeedle = {id: req.body.id};
 
             Collection.findOne(findCollectionNeedle).exec(function (err, foundCollection) {
 
@@ -57,7 +57,7 @@ module.exports = {
 
                 } else if (typeof foundCollection === 'undefined') {
 
-                    return res.badRequest('Original collection was not found.');
+                    return res.forbidden('Original collection was not found.');
 
                 } else {
 
