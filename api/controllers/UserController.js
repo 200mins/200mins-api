@@ -28,35 +28,24 @@ module.exports = {
                     return res.forbidden('We don\'t know you.');
 
                 } else {
+                    
+                    var isPasswordCorrect = CryptoService.encrypt(req.query.password) === foundUser.password;
 
-                    var bcrypt = require('bcrypt');
+                    if (!isPasswordCorrect) {
 
-                    bcrypt.compare(req.query.password, foundUser.password, function (err, isSame) {
+                        return res.forbidden('Wrong password.');
 
-                        if (err) {
+                    } else {
 
-                            return sails.config.environment === 'development' ? res.serverError(err) : res.serverError();
+                        var response = {
+                            token: JWTService.generate({id: foundUser.id, password: foundUser.password}),
+                            user: foundUser
+                        };
 
-                        } else {
+                        return res.json(response);
 
-                            if (!isSame) {
+                    }
 
-                                return res.forbidden('Wrong password.');
-
-                            } else {
-
-                                var response = {
-                                    token: JWTService.generate({id: foundUser.id, password: foundUser.password}),
-                                    user: foundUser
-                                };
-
-                                return res.json(response);
-
-                            }
-
-                        }
-
-                    });
                 }
 
             });

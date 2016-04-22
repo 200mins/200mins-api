@@ -73,33 +73,9 @@ module.exports = {
 
     beforeCreate: function (user, callback) {
 
-        var bcrypt = require('bcrypt');
+        user.password = CryptoService.encrypt(user.password);
 
-        bcrypt.genSalt(10, function (err, salt) {
-
-            if (err) {
-
-                return callback(err);
-
-            } else {
-
-                bcrypt.hash(user.password, salt, function (err, hash) {
-
-                    if (err) {
-
-                        return callback(err);
-
-                    }
-
-                    user.password = hash;
-
-                    return callback(null);
-
-                });
-
-            }
-
-        });
+        return callback(null);
 
     }
 

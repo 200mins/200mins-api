@@ -25,11 +25,91 @@ module.exports = {
 
                 var code = 'd';
 
+                var findActivityNeedle = {
+                    activity: {
+                        code: code,
+                        reference: quality
+                    },
+                    movie: req.body.movie,
+                    user: req.body.user
+                };
+
+                Activity.findOne(findActivityNeedle).exec(function (err, foundActivity) {
+
+                    if (err) {
+
+                        return sails.config.environment === 'development' ? res.serverError(err) : res.serverError();
+
+                    } else if (typeof foundActivity !== 'undefined') {
+
+                        return res.ok();
+
+                    } else {
+
+                        var createActivityNeedle = {
+                            activity: {
+                                code: code,
+                                points: sails.config.ACTIVITIES[code].points,
+                                reference: quality,
+                                string: sails.config.ACTIVITIES[code].string
+                            },
+                            movie: req.body.movie,
+                            user: req.body.user
+                        };
+
+                        Activity.create(createActivityNeedle).exec(function (err, createdActivity) {
+
+                            if (err) {
+
+                                return sails.config.environment === 'development' ? res.serverError(err) : res.serverError();
+
+                            } else {
+
+                                res.ok();
+
+                            }
+
+                        });
+
+                    }
+
+                });
+
+            }
+
+        }
+
+    },
+
+    like: function (req, res) {
+
+        var code = 'l';
+
+        var findActivityNeedle = {
+            activity: {
+                code: code
+            },
+            movie: req.body.movie,
+            user: req.body.user
+        };
+
+        Activity.findOne(findActivityNeedle).exec(function (err, foundActivity) {
+
+            if (err) {
+
+                return sails.config.environment === 'development' ? res.serverError(err) : res.serverError();
+
+            } else if (typeof foundActivity !== 'undefined') {
+
+                return res.forbidden('You have already liked this movie.');
+
+            } else {
+
                 var createActivityNeedle = {
                     activity: {
                         code: code,
                         points: sails.config.ACTIVITIES[code].points,
-                        reference: quality,
+                        reference: null,
                         string: sails.config.ACTIVITIES[code].string
                     },
                     movie: req.body.movie,
@@ -52,37 +132,6 @@ module.exports = {
 
             }
 
-        }
-
-    },
-
-    like: function (req, res) {
-
-        var code = 'l';
-
-        var createActivityNeedle = {
-            activity: {
-                code: code,
-                points: sails.config.ACTIVITIES[code].points,
-                reference: null,
-                string: sails.config.ACTIVITIES[code].string
-            },
-            movie: req.body.movie,
-            user: req.body.user
-        };
-
-        Activity.create(createActivityNeedle).exec(function (err, createdActivity) {
-
-            if (err) {
-
-                return sails.config.environment === 'development' ? res.serverError(err) : res.serverError();
-
-            } else {
-
-                res.ok();
-
-            }
-
         });
 
     },
@@ -90,9 +139,7 @@ module.exports = {
     unlike: function (req, res) {
 
         var findActivityNeedle = {
-            activity: {
-                code: 'l'
-            },
+            activity: {code: 'l'},
             movie: req.body.movie,
             user: req.body.user
         };
@@ -105,7 +152,7 @@ module.exports = {
 
             } else if (typeof foundActivity === 'undefined') {
 
-                return res.forbidden('Original activity was not found.');
+                return res.forbidden('You haven\'t liked this movie.');
 
             } else {
 
@@ -114,7 +161,6 @@ module.exports = {
                     if (err) {
 
                         return sails.config.environment === 'development' ? res.serverError(err) : res.serverError();
-
 
                     } else {
 
@@ -134,26 +180,48 @@ module.exports = {
 
         var code = 'wn';
 
-        var createActivityNeedle = {
-            activity: {
-                code: code,
-                points: sails.config.ACTIVITIES[code].points,
-                reference: null,
-                string: sails.config.ACTIVITIES[code].string
-            },
+        var findActivityNeedle = {
+            activity: {code: code},
             movie: req.body.movie,
             user: req.body.user
         };
 
-        Activity.create(createActivityNeedle).exec(function (err, createdActivity) {
+        Activity.findOne(findActivityNeedle).exec(function (err, foundActivity) {
 
             if (err) {
 
                 return sails.config.environment === 'development' ? res.serverError(err) : res.serverError();
 
+            } else if (foundActivity !== 'undefined') {
+
+                return res.forbidden('You have already marked this to watch.');
+
             } else {
 
-                res.ok();
+                var createActivityNeedle = {
+                    activity: {
+                        code: code,
+                        points: sails.config.ACTIVITIES[code].points,
+                        reference: null,
+                        string: sails.config.ACTIVITIES[code].string
+                    },
+                    movie: req.body.movie,
+                    user: req.body.user
+                };
+
+                Activity.create(createActivityNeedle).exec(function (err, createdActivity) {
+
+                    if (err) {
+
+                        return sails.config.environment === 'development' ? res.serverError(err) : res.serverError();
+
+                    } else {
+
+                        res.ok();
+
+                    }
+
+                });
 
             }
 
@@ -164,9 +232,7 @@ module.exports = {
     unmarkWatch: function (req, res) {
 
         var findActivityNeedle = {
-            activity: {
-                code: 'wn'
-            },
+            activity: {code: 'wn'},
             movie: req.body.movie,
             user: req.body.user
         };
@@ -179,7 +245,7 @@ module.exports = {
 
             } else if (typeof foundActivity === 'undefined') {
 
-                return res.forbidden('Original activity was not found.');
+                return res.forbidden('You haven\'t marked this to watch.');
 
             } else {
 
@@ -207,26 +273,48 @@ module.exports = {
 
         var code = 'wy';
 
-        var createActivityNeedle = {
-            activity: {
-                code: code,
-                points: sails.config.ACTIVITIES[code].points,
-                reference: null,
-                string: sails.config.ACTIVITIES[code].string
-            },
+        var findActivityNeedle = {
+            activity: {code: code},
             movie: req.body.movie,
             user: req.body.user
         };
 
-        Activity.create(createActivityNeedle).exec(function (err, createdActivity) {
+        Activity.findOne(findActivityNeedle).exec(function (err, foundActivity) {
 
             if (err) {
 
                 return sails.config.environment === 'development' ? res.serverError(err) : res.serverError();
 
+            } else if (typeof foundActivity !== 'undefined') {
+
+                return res.forbidden('You have already marked this as watched.');
+
             } else {
 
-                res.ok();
+                var createActivityNeedle = {
+                    activity: {
+                        code: code,
+                        points: sails.config.ACTIVITIES[code].points,
+                        reference: null,
+                        string: sails.config.ACTIVITIES[code].string
+                    },
+                    movie: req.body.movie,
+                    user: req.body.user
+                };
+
+                Activity.create(createActivityNeedle).exec(function (err, createdActivity) {
+
+                    if (err) {
+
+                        return sails.config.environment === 'development' ? res.serverError(err) : res.serverError();
+
+                    } else {
+
+                        res.ok();
+
+                    }
+
+                });
 
             }
 
@@ -252,7 +340,7 @@ module.exports = {
 
             } else if (typeof foundActivity === 'undefined') {
 
-                return res.forbidden('Original activity was not found.');
+                return res.forbidden('You haven\'t marked this as watched.');
 
             } else {
 
