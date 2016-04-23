@@ -14,7 +14,8 @@ module.exports = {
         // Unique
 
         email: {
-            type: 'email',
+            type: 'string',
+            protected: true,
             required: true,
             unique: true
         },

@@ -16,6 +16,18 @@ module.exports = {
 
         return crypted;
 
+    },
+
+    decrypt: function (crypted) {
+
+        var decipher = crypto.createDecipher(algorithm, secret);
+
+        var str = decipher.update(crypted, 'hex', 'utf8');
+
+        str += decipher.final('utf8');
+
+        return str;
+
     }
 
 };

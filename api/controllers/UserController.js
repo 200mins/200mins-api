@@ -66,7 +66,7 @@ module.exports = {
 
                 findUserByEmail: function (callback) {
 
-                    var findUserNeedle = {email: req.body.email};
+                    var findUserNeedle = {email: CryptoService.encrypt(req.body.email)};
 
                     User.findOne(findUserNeedle).exec(function (err, foundUser) {
 
@@ -131,7 +131,7 @@ module.exports = {
                     }
 
                     var createUserNeedle = {
-                        email: req.body.email,
+                        email: CryptoService.encrypt(req.body.email),
                         username: req.body.username,
                         password: req.body.password,
                         avatar: 'https://api.adorable.io/avatars/285/' + req.body.username
