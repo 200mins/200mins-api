@@ -1,27 +1,27 @@
 module.exports.ACTIVITIES = {
 
     d: {
-        points: 5,
+        karma: -10,
         string: ' downloaded '
     },
 
     l: {
-        points: 5,
+        karma: 0,
         string: ' liked '
     },
 
     r: {
-        points: 20,
+        karma: 20,
         string: ' reviewed '
     },
 
     wn: {
-        points: 0,
+        karma: 0,
         string: ' wishes to watch '
     },
 
     wy: {
-        points: 10,
+        karma: 5,
         string: ' watched '
     }
 

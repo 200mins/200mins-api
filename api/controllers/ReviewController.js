@@ -54,7 +54,7 @@ module.exports = {
                             var createActivityNeedle = {
                                 activity: {
                                     code: code,
-                                    points: sails.config.ACTIVITIES[code].points,
+                                    karma: sails.config.ACTIVITIES[code].karma,
                                     reference: createdReview.id,
                                     string: sails.config.ACTIVITIES[code].string
                                 },

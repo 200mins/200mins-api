@@ -34,12 +34,6 @@ module.exports = {
             required: true
         },
 
-        points: {
-            type: 'integer',
-            defaultsTo: 0,
-            min: 0
-        },
-
         type: {
             type: 'string',
             enum: ['user', 'staff'],

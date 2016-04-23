@@ -42,14 +42,14 @@ module.exports = {
 
                     } else if (typeof foundActivity !== 'undefined') {
 
-                        return res.ok();
+                        return res.json({karmaDelta: 0});
 
                     } else {
 
                         var createActivityNeedle = {
                             activity: {
                                 code: code,
-                                points: sails.config.ACTIVITIES[code].points,
+                                karma: sails.config.ACTIVITIES[code].karma,
                                 reference: quality,
                                 string: sails.config.ACTIVITIES[code].string
                             },
@@ -65,7 +65,7 @@ module.exports = {
 
                             } else {
 
-                                res.ok();
+                                res.json({karmaDelta: sails.config.ACTIVITIES[code].karma});
 
                             }
 
@@ -108,7 +108,7 @@ module.exports = {
                 var createActivityNeedle = {
                     activity: {
                         code: code,
-                        points: sails.config.ACTIVITIES[code].points,
+                        karma: sails.config.ACTIVITIES[code].karma,
                         reference: null,
                         string: sails.config.ACTIVITIES[code].string
                     },
@@ -124,7 +124,7 @@ module.exports = {
 
                     } else {
 
-                        res.ok();
+                        res.json({karmaDelta: sails.config.ACTIVITIES[code].karma});
 
                     }
 
@@ -164,7 +164,7 @@ module.exports = {
 
                     } else {
 
-                        return res.ok();
+                        return res.json({karmaDelta: sails.config.ACTIVITIES[code].karma});
 
                     }
 
@@ -201,7 +201,7 @@ module.exports = {
                 var createActivityNeedle = {
                     activity: {
                         code: code,
-                        points: sails.config.ACTIVITIES[code].points,
+                        karma: sails.config.ACTIVITIES[code].karma,
                         reference: null,
                         string: sails.config.ACTIVITIES[code].string
                     },
@@ -217,7 +217,7 @@ module.exports = {
 
                     } else {
 
-                        res.ok();
+                        return res.json({karmaDelta: sails.config.ACTIVITIES[code].karma});
 
                     }
 
@@ -231,8 +231,10 @@ module.exports = {
 
     unmarkWatch: function (req, res) {
 
+        var code = 'wn';
+        
         var findActivityNeedle = {
-            activity: {code: 'wn'},
+            activity: {code: code},
             movie: req.body.movie,
             user: req.body.user
         };
@@ -257,7 +259,7 @@ module.exports = {
 
                     } else {
 
-                        return res.ok();
+                        return res.json({karmaDelta: sails.config.ACTIVITIES[code].karma});
 
                     }
 
@@ -294,7 +296,7 @@ module.exports = {
                 var createActivityNeedle = {
                     activity: {
                         code: code,
-                        points: sails.config.ACTIVITIES[code].points,
+                        karma: sails.config.ACTIVITIES[code].karma,
                         reference: null,
                         string: sails.config.ACTIVITIES[code].string
                     },
@@ -310,7 +312,7 @@ module.exports = {
 
                     } else {
 
-                        res.ok();
+                        return res.json({karmaDelta: sails.config.ACTIVITIES[code].karma});
 
                     }
 
@@ -324,10 +326,10 @@ module.exports = {
 
     unmarkWatched: function (req, res) {
 
+        var code = 'wy';
+        
         var findActivityNeedle = {
-            activity: {
-                code: 'wy'
-            },
+            activity: {code: code},
             movie: req.body.movie,
             user: req.body.user
         };
@@ -352,7 +354,7 @@ module.exports = {
 
                     } else {
 
-                        return res.ok();
+                        return res.json({karmaDelta: sails.config.ACTIVITIES[code].karma});
 
                     }
 

@@ -26,7 +26,7 @@ module.exports.policies = {
   *                                                                          *
   ***************************************************************************/
 
-  '*': 'isAuthorized',
+  '*': 'isAuthenticated',
 
   /***************************************************************************
   *                                                                          *
@@ -50,18 +50,18 @@ module.exports.policies = {
   // }
 
   ActivityController: {
-    '*': ['isAuthorized', 'cleanMovie']
+    '*': ['isAuthenticated', 'cleanMovie']
   },
 
   CollectionController: {
-    'create': ['isAuthorized', 'cleanMovieArray'],
-    'update': ['isAuthorized', 'cleanMovieArray']
+    'create': ['isAuthenticated', 'cleanMovieArray'],
+    'update': ['isAuthenticated', 'cleanMovieArray']
   },
 
   FranchiseController: {
-    'create': ['isAuthorized', 'isStaff', 'cleanMovieArray'],
-    'update': ['isAuthorized', 'isStaff', 'cleanMovieArray'],
-    'delete': ['isAuthorized', 'isStaff']
+    'create': ['isAuthenticated', 'isStaff', 'cleanMovieArray'],
+    'update': ['isAuthenticated', 'isStaff', 'cleanMovieArray'],
+    'delete': ['isAuthenticated', 'isStaff']
   },
 
   ProxyController: {
@@ -69,8 +69,8 @@ module.exports.policies = {
   },
 
   ReviewController: {
-    'create': ['isAuthorized', 'cleanMovie'],
-    'update': ['isAuthorized', 'cleanMovie']
+    'create': ['isAuthenticated', 'cleanMovie'],
+    'update': ['isAuthenticated', 'cleanMovie']
   },
 
   UserController: {

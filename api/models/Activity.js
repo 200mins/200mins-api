@@ -20,7 +20,7 @@ module.exports = {
 
             {
                 code: null,
-                points: 0,
+                karma: 0,
                 reference: null,
                 string: null,
             }

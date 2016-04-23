@@ -10,7 +10,11 @@ module.exports = function (req, res, next) {
 
         } else {
 
-            if (typeof foundUser === 'undefined' || foundUser.type !== 'staff') {
+            if (typeof foundUser === 'undefined') {
+
+                return res.kick('Please login again.');
+
+            } else if (foundUser.type !== 'staff') {
 
                 return res.stahp('You must be a 200mins staff to perform this action.');
 
