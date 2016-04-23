@@ -16,7 +16,7 @@ module.exports = function (req, res, next) {
 
         if (err) {
 
-            return res.stahp('Your session has expired. Please login again.');
+            return res.stahp('Please login again.');
 
         } else {
 
@@ -32,13 +32,13 @@ module.exports = function (req, res, next) {
 
                     if (typeof foundUser === 'undefined') {
 
-                        return res.stahp('We don\'t know you.');
+                        return res.stahp('Please login again.');
 
                     } else {
 
                         if (token.password !== foundUser.password) {
 
-                            return res.stahp('Wrong password.');
+                            return res.stahp('Please login again.');
 
                         } else {
 
