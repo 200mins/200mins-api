@@ -25,7 +25,7 @@ module.exports = {
 
                 if (err) {
 
-                    return sails.config.environment === 'development' ? res.serverError(err) : res.serverError();
+                    return res.serverError(err);
 
                 } else {
 
@@ -56,11 +56,11 @@ module.exports = {
 
                 if (err) {
 
-                    return sails.config.environment === 'development' ? res.serverError(err) : res.serverError();
+                    return res.serverError(err);
 
                 } else if (typeof foundCollection === 'undefined') {
 
-                    res.forbidden('Original collection was not found.');
+                    res.stahp('Original collection was not found.');
 
                 } else {
 
@@ -68,7 +68,7 @@ module.exports = {
 
                         if (err) {
 
-                            return sails.config.environment === 'development' ? res.serverError(err) : res.serverError();
+                            return res.serverError(err);
 
                         } else {
 
@@ -100,11 +100,11 @@ module.exports = {
 
                 if (err) {
 
-                    return sails.config.environment === 'development' ? res.serverError(err) : res.serverError();
+                    return res.serverError(err);
 
                 } else if (typeof foundCollection === 'undefined') {
 
-                    return res.forbidden('Original collection was not found.');
+                    return res.stahp('Original collection was not found.');
 
                 } else {
 
@@ -117,7 +117,7 @@ module.exports = {
 
                         if (err) {
 
-                            return sails.config.environment === 'development' ? res.serverError(err) : res.serverError();
+                            return res.serverError(err);
 
                         } else {
 

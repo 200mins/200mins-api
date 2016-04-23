@@ -24,7 +24,7 @@ module.exports = {
 
                 if (err) {
 
-                    return sails.config.environment === 'development' ? res.serverError(err) : res.serverError();
+                    return res.serverError(err);
 
                 } else {
 
@@ -52,11 +52,11 @@ module.exports = {
 
                 if (err) {
 
-                    return sails.config.environment === 'development' ? res.serverError(err) : res.serverError();
+                    return res.serverError(err);
 
                 } else if (typeof foundFranchise === 'undefined') {
 
-                    res.forbidden('Original franchise was not found.');
+                    res.stahp('Original franchise was not found.');
 
                 } else {
 
@@ -64,7 +64,7 @@ module.exports = {
 
                         if (err) {
 
-                            return sails.config.environment === 'development' ? res.serverError(err) : res.serverError();
+                            return res.serverError(err);
 
                         } else {
 
@@ -96,11 +96,11 @@ module.exports = {
 
                 if (err) {
 
-                    return sails.config.environment === 'development' ? res.serverError(err) : res.serverError();
+                    return res.serverError(err);
 
                 } else if (typeof foundFranchise === 'undefined') {
 
-                    return res.forbidden('Original franchise was not found.');
+                    return res.stahp('Original franchise was not found.');
 
                 } else {
 
@@ -113,7 +113,7 @@ module.exports = {
 
                         if (err) {
 
-                            return sails.config.environment === 'development' ? res.serverError(err) : res.serverError();
+                            return res.serverError(err);
 
                         } else {
 

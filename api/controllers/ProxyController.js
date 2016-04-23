@@ -25,13 +25,13 @@ module.exports = {
 
                 } else {
 
-                    return sails.config.environment === 'development' ? res.serverError(err) : res.serverError();
+                    return res.serverError(err);
 
                 }
 
             } else {
 
-                return sails.config.environment === 'development' ? res.serverError(err) : res.serverError();
+                return res.serverError(err);
 
             }
 
@@ -63,13 +63,13 @@ module.exports = {
 
                     } else {
 
-                        return sails.config.environment === 'development' ? res.serverError(err) : res.serverError();
+                        return res.serverError(err);
 
                     }
 
                 } else {
 
-                    return sails.config.environment === 'development' ? res.serverError(err) : res.serverError();
+                    return res.serverError(err);
 
                 }
 
@@ -101,13 +101,13 @@ module.exports = {
 
                     } else {
 
-                        return sails.config.environment === 'development' ? res.serverError() : res.serverError();
+                        return res.serverError(err);
 
                     }
 
                 } else {
 
-                    return sails.config.environment === 'development' ? res.serverError(err) : res.serverError();
+                    return res.serverError(err);
 
                 }
 

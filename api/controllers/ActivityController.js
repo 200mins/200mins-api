@@ -38,7 +38,7 @@ module.exports = {
 
                     if (err) {
 
-                        return sails.config.environment === 'development' ? res.serverError(err) : res.serverError();
+                        return res.serverError(err);
 
                     } else if (typeof foundActivity !== 'undefined') {
 
@@ -61,7 +61,7 @@ module.exports = {
 
                             if (err) {
 
-                                return sails.config.environment === 'development' ? res.serverError(err) : res.serverError();
+                                return res.serverError(err);
 
                             } else {
 
@@ -97,11 +97,11 @@ module.exports = {
 
             if (err) {
 
-                return sails.config.environment === 'development' ? res.serverError(err) : res.serverError();
+                return res.serverError(err);
 
             } else if (typeof foundActivity !== 'undefined') {
 
-                return res.forbidden('You have already liked this movie.');
+                return res.stahp('You have already liked this movie.');
 
             } else {
 
@@ -120,7 +120,7 @@ module.exports = {
 
                     if (err) {
 
-                        return sails.config.environment === 'development' ? res.serverError(err) : res.serverError();
+                        return res.serverError(err);
 
                     } else {
 
@@ -148,11 +148,11 @@ module.exports = {
 
             if (err) {
 
-                return sails.config.environment === 'development' ? res.serverError(err) : res.serverError();
+                return res.serverError(err);
 
             } else if (typeof foundActivity === 'undefined') {
 
-                return res.forbidden('You haven\'t liked this movie.');
+                return res.stahp('You haven\'t liked this movie.');
 
             } else {
 
@@ -160,7 +160,7 @@ module.exports = {
 
                     if (err) {
 
-                        return sails.config.environment === 'development' ? res.serverError(err) : res.serverError();
+                        return res.serverError(err);
 
                     } else {
 
@@ -190,11 +190,11 @@ module.exports = {
 
             if (err) {
 
-                return sails.config.environment === 'development' ? res.serverError(err) : res.serverError();
+                return res.serverError(err);
 
             } else if (foundActivity !== 'undefined') {
 
-                return res.forbidden('You have already marked this to watch.');
+                return res.stahp('You have already marked this to watch.');
 
             } else {
 
@@ -213,7 +213,7 @@ module.exports = {
 
                     if (err) {
 
-                        return sails.config.environment === 'development' ? res.serverError(err) : res.serverError();
+                        return res.serverError(err);
 
                     } else {
 
@@ -241,11 +241,11 @@ module.exports = {
 
             if (err) {
 
-                return sails.config.environment === 'development' ? res.serverError(err) : res.serverError();
+                return res.serverError(err);
 
             } else if (typeof foundActivity === 'undefined') {
 
-                return res.forbidden('You haven\'t marked this to watch.');
+                return res.stahp('You haven\'t marked this to watch.');
 
             } else {
 
@@ -253,7 +253,7 @@ module.exports = {
 
                     if (err) {
 
-                        return sails.config.environment === 'development' ? res.serverError(err) : res.serverError();
+                        return res.serverError(err);
 
                     } else {
 
@@ -283,11 +283,11 @@ module.exports = {
 
             if (err) {
 
-                return sails.config.environment === 'development' ? res.serverError(err) : res.serverError();
+                return res.serverError(err);
 
             } else if (typeof foundActivity !== 'undefined') {
 
-                return res.forbidden('You have already marked this as watched.');
+                return res.stahp('You have already marked this as watched.');
 
             } else {
 
@@ -306,7 +306,7 @@ module.exports = {
 
                     if (err) {
 
-                        return sails.config.environment === 'development' ? res.serverError(err) : res.serverError();
+                        return res.serverError(err);
 
                     } else {
 
@@ -336,11 +336,11 @@ module.exports = {
 
             if (err) {
 
-                return sails.config.environment === 'development' ? res.serverError(err) : res.serverError();
+                return res.serverError(err);
 
             } else if (typeof foundActivity === 'undefined') {
 
-                return res.forbidden('You haven\'t marked this as watched.');
+                return res.stahp('You haven\'t marked this as watched.');
 
             } else {
 
@@ -348,8 +348,7 @@ module.exports = {
 
                     if (err) {
 
-                        return sails.config.environment === 'development' ? res.serverError(err) : res.serverError();
-
+                        return res.serverError(err);
 
                     } else {
 

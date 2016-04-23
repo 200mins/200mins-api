@@ -24,11 +24,11 @@ module.exports = {
 
                 if (err) {
 
-                    return sails.config.environment === 'development' ? res.serverError(err) : res.serverError();
+                    return res.serverError(err);
 
                 } else if (typeof foundReview !== 'undefined') {
 
-                    return res.forbidden('You have already reviewed this movie. Please edit the original review.');
+                    return res.stahp('You have already reviewed this movie. Please edit the original review.');
 
                 } else {
 
@@ -45,7 +45,7 @@ module.exports = {
 
                         if (err) {
 
-                            return sails.config.environment === 'development' ? res.serverError(err) : res.serverError();
+                            return res.serverError(err);
 
                         } else {
 
@@ -66,7 +66,7 @@ module.exports = {
 
                                 if (err) {
 
-                                    return sails.config.environment === 'development' ? res.serverError(err) : res.serverError();
+                                    return res.serverError(err);
 
                                     // Bug: Activity not recorded
 
@@ -107,11 +107,11 @@ module.exports = {
 
                 if (err) {
 
-                    return sails.config.environment === 'development' ? res.serverError(err) : res.serverError();
+                    return res.serverError(err);
 
                 } else if (typeof foundReview === 'undefined') {
 
-                    res.forbidden('Original review was not found.');
+                    res.stahp('Original review was not found.');
 
                 } else {
 
@@ -119,7 +119,7 @@ module.exports = {
 
                         if (err) {
 
-                            return sails.config.environment === 'development' ? res.serverError(err) : res.serverError();
+                            return res.serverError(err);
 
                         } else {
 
@@ -135,7 +135,7 @@ module.exports = {
 
                                 if (err) {
 
-                                    return sails.config.environment === 'development' ? res.serverError(err) : res.serverError();
+                                    return res.serverError(err);
 
                                     // Bug: Activity not recorded
 
@@ -176,11 +176,11 @@ module.exports = {
 
                 if (err) {
 
-                    return sails.config.environment === 'development' ? res.serverError(err) : res.serverError();
+                    return res.serverError(err);
 
                 } else if (typeof foundReview === 'undefined') {
 
-                    return res.forbidden('Original review was not found.');
+                    return res.stahp('Original review was not found.');
 
                 } else {
 
@@ -195,7 +195,7 @@ module.exports = {
 
                         if (err) {
 
-                            return sails.config.environment === 'development' ? res.serverError(err) : res.serverError();
+                            return res.serverError(err);
 
                         } else {
 
@@ -211,7 +211,7 @@ module.exports = {
 
                                 if (err) {
 
-                                    return sails.config.environment === 'development' ? res.serverError(err) : res.serverError();
+                                    return res.serverError(err);
 
                                     // Bug: Activity not recorded
 
@@ -227,7 +227,7 @@ module.exports = {
 
                                         if (err) {
 
-                                            return sails.config.environment === 'development' ? res.serverError(err) : res.serverError();
+                                            return res.serverError(err);
 
                                             // Bug: Activity not recorded
 

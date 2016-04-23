@@ -21,11 +21,11 @@ module.exports = {
 
                 if (err) {
 
-                    return sails.config.environment === 'development' ? res.serverError(err) : res.serverError();
+                    return res.serverError(err);
 
                 } else if (typeof foundUser === 'undefined') {
 
-                    return res.forbidden('We don\'t know you.');
+                    return res.stahp('We don\'t know you.');
 
                 } else {
                     
@@ -33,7 +33,7 @@ module.exports = {
 
                     if (!isPasswordCorrect) {
 
-                        return res.forbidden('Wrong password.');
+                        return res.stahp('Wrong password.');
 
                     } else {
 
@@ -116,7 +116,7 @@ module.exports = {
 
                 if (err) {
 
-                    return sails.config.environment === 'development' ? res.serverError(err) : res.serverError();
+                    return res.serverError(err);
 
                 } else {
 
@@ -124,7 +124,7 @@ module.exports = {
 
                         if (result[key] !== false) {
 
-                            return res.forbidden('A user with that ' + result[key] + ' exists.');
+                            return res.stahp('A user with that ' + result[key] + ' exists.');
 
                         }
 
@@ -141,7 +141,7 @@ module.exports = {
 
                         if (err) {
 
-                            return sails.config.environment === 'development' ? res.serverError(err) : res.serverError();
+                            return res.serverError(err);
 
                         } else {
 
