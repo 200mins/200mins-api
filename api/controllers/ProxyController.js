@@ -21,7 +21,7 @@ module.exports = {
 
                 if (data.status === 'ok') {
 
-                    res.json(data.data);
+                    return res.json(data.data);
 
                 } else {
 
@@ -41,7 +41,7 @@ module.exports = {
 
     movie_details: function (req, res) {
 
-        if (req.query.hasOwnProperty('movie_id')) {
+        if (req.query.hasOwnProperty('movie_id') && !isNaN(req.query.movie_id)) {
 
             var params = {
                 movie_id: req.query.movie_id,
@@ -53,13 +53,21 @@ module.exports = {
 
             request(url, function (err, response, body) {
 
-                if (!err && response.statusCode === 200) {
+                if (!err && response.statusCode === 200 && body.length !== 0) {
 
                     var data = JSON.parse(body);
 
                     if (data.status === 'ok') {
 
-                        res.json(data.data);
+                        if (data.data.movie.id > 0) {
+
+                            return res.json(data.data);
+
+                        } else {
+
+                            return res.notFound();
+
+                        }
 
                     } else {
 
@@ -77,7 +85,7 @@ module.exports = {
 
         } else {
 
-            res.badRequest();
+            return res.badRequest();
 
         }
 
@@ -85,7 +93,7 @@ module.exports = {
 
     movie_suggestions: function (req, res) {
 
-        if (req.query.hasOwnProperty('movie_id')) {
+        if (req.query.hasOwnProperty('movie_id') && !isNaN(req.query.movie_id)) {
 
             var url = 'https://yts.ag/api/v2/movie_suggestions.json?movie_id=' + req.query.movie_id;
 
@@ -97,7 +105,7 @@ module.exports = {
 
                     if (data.status === 'ok') {
 
-                        res.json(data.data);
+                        return res.json(data.data);
 
                     } else {
 
@@ -115,7 +123,7 @@ module.exports = {
 
         } else {
 
-            res.badRequest();
+            return res.badRequest();
 
         }
 
