@@ -47,6 +47,7 @@ module.exports.routes = {
   ***************************************************************************/
 
   'post /activity/download': 'ActivityController.download',
+  'post /activity/stream': 'ActivityController.stream',
   'post /activity/like': 'ActivityController.like',
   'post /activity/unlike': 'ActivityController.unlike',
   'post /activity/markwatch': 'ActivityController.markWatch',

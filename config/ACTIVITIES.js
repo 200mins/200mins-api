@@ -14,6 +14,11 @@ module.exports.ACTIVITIES = {
         karma: 20,
         string: ' reviewed '
     },
+    
+    s: {
+        karma: -10,
+        string: ' streamed '
+    },
 
     wn: {
         karma: 0,

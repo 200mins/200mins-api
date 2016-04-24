@@ -19,7 +19,7 @@ module.exports = {
         },
 
         rating: {
-            type: 'integer',
+            type: 'number',
             min: 0,
             max: 10,
             required: true

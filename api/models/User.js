@@ -34,17 +34,20 @@ module.exports = {
             required: true
         },
 
-        type: {
-            type: 'string',
-            enum: ['user', 'staff'],
-            defaultsTo: 'user'
-        },
-
-        // Optional
-
+        // Set automatically
+        
         avatar: {
             type: 'string',
             url: true
+        },
+        
+        karma: {
+            type: 'number'
+        },
+        
+        type: {
+            type: 'string',
+            enum: ['user', 'staff']
         },
 
         /* --- RELATIONS --- */
@@ -68,7 +71,11 @@ module.exports = {
 
     beforeCreate: function (user, callback) {
 
+        user.karma = 0;
+        
         user.password = CryptoService.encrypt(user.password);
+        
+        user.type = 'user';
 
         return callback(null);
 

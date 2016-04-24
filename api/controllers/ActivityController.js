@@ -80,6 +80,80 @@ module.exports = {
         }
 
     },
+    
+    stream: function (req, res) {
+
+        if (!req.body.hasOwnProperty('quality')) {
+
+            return res.badRequest();
+
+        } else {
+
+            var quality = req.body.quality.toUpperCase();
+
+            if (!(quality === '3D' || quality === '720P' || quality === '1080P')) {
+
+                return res.badRequest();
+
+            } else {
+
+                var code = 's';
+
+                var findActivityNeedle = {
+                    activity: {
+                        code: code,
+                        reference: quality
+                    },
+                    movie: req.body.movie,
+                    user: req.body.user
+                };
+
+                Activity.findOne(findActivityNeedle).exec(function (err, foundActivity) {
+
+                    if (err) {
+
+                        return res.serverError(err);
+
+                    } else if (typeof foundActivity !== 'undefined') {
+
+                        return res.json({karmaDelta: 0});
+
+                    } else {
+
+                        var createActivityNeedle = {
+                            activity: {
+                                code: code,
+                                karma: sails.config.ACTIVITIES[code].karma,
+                                reference: quality,
+                                string: sails.config.ACTIVITIES[code].string
+                            },
+                            movie: req.body.movie,
+                            user: req.body.user
+                        };
+
+                        Activity.create(createActivityNeedle).exec(function (err, createdActivity) {
+
+                            if (err) {
+
+                                return res.serverError(err);
+
+                            } else {
+
+                                res.json({karmaDelta: sails.config.ACTIVITIES[code].karma});
+
+                            }
+
+                        });
+
+                    }
+
+                });
+
+            }
+
+        }
+
+    },
 
     like: function (req, res) {
 
