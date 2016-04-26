@@ -67,7 +67,7 @@ module.exports = {
                                 var createActivityNeedle = {
                                     code: code,
                                     description: description,
-                                    karmaDelta: sails.config.ACTIVITIES[code].karma,
+                                    karmaDelta: sails.config.KARMAS[code],
                                     movie: foundOrCreatedMovie.id,
                                     user: USERID
                                 };
@@ -160,7 +160,7 @@ module.exports = {
                                 var createActivityNeedle = {
                                     code: code,
                                     description: description,
-                                    karmaDelta: sails.config.ACTIVITIES[code].karma,
+                                    karmaDelta: sails.config.KARMAS[code],
                                     movie: foundOrCreatedMovie.id,
                                     user: USERID
                                 };
@@ -231,7 +231,7 @@ module.exports = {
 
                         var createActivityNeedle = {
                             code: code,
-                            karmaDelta: sails.config.ACTIVITIES[code].karma,
+                            karmaDelta: sails.config.KARMAS[code],
                             movie: foundOrCreatedMovie.id,
                             user: USERID
                         };
@@ -304,7 +304,7 @@ module.exports = {
 
                             } else {
 
-                                return res.json({karmaDelta: sails.config.ACTIVITIES[code].karma * -1});
+                                return res.json({karmaDelta: sails.config.KARMAS[code] * -1});
 
                             }
 
@@ -358,7 +358,7 @@ module.exports = {
 
                         var createActivityNeedle = {
                             code: code,
-                            karmaDelta: sails.config.ACTIVITIES[code].karma,
+                            karmaDelta: sails.config.KARMAS[code],
                             movie: foundOrCreatedMovie.id,
                             user: USERID
                         };
@@ -431,7 +431,7 @@ module.exports = {
 
                             } else {
 
-                                return res.json({karmaDelta: sails.config.ACTIVITIES[code].karma * -1});
+                                return res.json({karmaDelta: sails.config.KARMAS[code] * -1});
 
                             }
 
@@ -485,7 +485,7 @@ module.exports = {
 
                         var createActivityNeedle = {
                             code: code,
-                            karmaDelta: sails.config.ACTIVITIES[code].karma,
+                            karmaDelta: sails.config.KARMAS[code],
                             movie: foundOrCreatedMovie.id,
                             user: USERID
                         };
@@ -558,7 +558,7 @@ module.exports = {
 
                             } else {
 
-                                return res.json({karmaDelta: sails.config.ACTIVITIES[code].karma * -1});
+                                return res.json({karmaDelta: sails.config.KARMAS[code] * -1});
 
                             }
 

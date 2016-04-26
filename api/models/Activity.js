@@ -25,7 +25,7 @@ module.exports = {
         },
 
         karmaDelta: {
-            type: 'int',
+            type: 'integer',
             required: true
         },
 

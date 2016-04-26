@@ -42,7 +42,7 @@ module.exports = {
         },
         
         karma: {
-            type: 'int'
+            type: 'integer'
         },
         
         type: {

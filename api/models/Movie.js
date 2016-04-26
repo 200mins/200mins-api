@@ -40,7 +40,7 @@ module.exports = {
         },
 
         runtime: {
-            type: 'int',
+            type: 'integer',
             min: 0,
             required: true
         },
@@ -51,7 +51,7 @@ module.exports = {
         },
 
         year: {
-            type: 'int',
+            type: 'integer',
             max: 2017,
             min: 1890,
             required: true
