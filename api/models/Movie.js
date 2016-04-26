@@ -33,12 +33,15 @@ module.exports = {
         },
 
         imdbRating: {
-            type: 'number',
+            type: 'float',
+            max: 10,
+            min: 0,
             required: true
         },
 
         runtime: {
-            type: 'number',
+            type: 'int',
+            min: 0,
             required: true
         },
 
@@ -48,7 +51,9 @@ module.exports = {
         },
 
         year: {
-            type: 'number',
+            type: 'int',
+            max: 2017,
+            min: 1890,
             required: true
         },
 
