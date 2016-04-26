@@ -55,11 +55,6 @@ module.exports = {
         activities: {
             collection: 'activity',
             via: 'user'
-        },
-
-        reviews: {
-            collection: 'review',
-            via: 'user'
         }
 
     },

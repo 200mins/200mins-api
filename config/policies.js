@@ -61,11 +61,6 @@ module.exports.policies = {
         '*': true
     },
 
-    ReviewController: {
-        'create': ['isAuthenticated', 'cleanMovie'],
-        'update': ['isAuthenticated', 'cleanMovie']
-    },
-
     UserController: {
         '*': true
     }
