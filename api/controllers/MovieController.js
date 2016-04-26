@@ -15,7 +15,7 @@ module.exports = {
 
         } else {
 
-            var REQUEST = request.query;
+            var REQUEST = req.query;
             
             var USERID = req.userID;
 
