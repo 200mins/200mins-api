@@ -54,7 +54,7 @@ module.exports.policies = {
     },
 
     MovieController: {
-        '*': false
+        '*': ['isAuthenticated']
     },
 
     ProxyController: {

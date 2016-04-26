@@ -80,7 +80,7 @@ module.exports = {
 
                                     } else {
 
-                                        res.json(createdActivity);
+                                        return res.json(createdActivity);
 
                                     }
 
@@ -173,7 +173,7 @@ module.exports = {
 
                                     } else {
 
-                                        res.json(createdActivity);
+                                        return res.json(createdActivity);
 
                                     }
 
@@ -244,7 +244,7 @@ module.exports = {
 
                             } else {
 
-                                res.json(createdActivity);
+                                return res.json(createdActivity);
 
                             }
 

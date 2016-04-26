@@ -55,6 +55,8 @@ module.exports.routes = {
     'post /activity/markwatched': 'ActivityController.markWatched',
     'post /activity/unmarkwatched': 'ActivityController.unmarkWatched',
 
+    'get /movie/status': 'MovieController.status',
+
     'get /proxy/listmovies': 'ProxyController.list_movies',
     'get /proxy/moviedetails': 'ProxyController.movie_details',
     'get /proxy/moviesuggestions': 'ProxyController.movie_suggestions',
