@@ -57,11 +57,6 @@ module.exports = {
             via: 'user'
         },
 
-        collections: {
-            collection: 'collection',
-            via: 'user'
-        },
-
         reviews: {
             collection: 'review',
             via: 'user'

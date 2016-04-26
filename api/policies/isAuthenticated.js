@@ -42,7 +42,7 @@ module.exports = function (req, res, next) {
 
                         } else {
 
-                            req.body.user = foundUser.id;
+                            req.userID = foundUser.id;
 
                             return next();
 

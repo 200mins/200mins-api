@@ -26,7 +26,7 @@ module.exports.policies = {
   *                                                                          *
   ***************************************************************************/
 
-  '*': 'isAuthenticated',
+  // '*': true,
 
   /***************************************************************************
   *                                                                          *
@@ -34,7 +34,7 @@ module.exports.policies = {
   * and its actions                                                          *
   *                                                                          *
   ***************************************************************************/
-  // RabbitController: {
+	// RabbitController: {
 
 		// Apply the `false` policy as the default for all of RabbitController's actions
 		// (`false` prevents all access, which ensures that nothing bad happens to our rabbits)
@@ -47,35 +47,27 @@ module.exports.policies = {
 		// Apply the `isNiceToAnimals` AND `hasRabbitFood` policies
 		// before letting any users feed our rabbits
 		// feed : ['isNiceToAnimals', 'hasRabbitFood']
-  // }
+	// }
 
-  ActivityController: {
-    '*': ['isAuthenticated', 'cleanMovie']
-  },
+    ActivityController: {
+        '*': ['isAuthenticated', 'cleanMovie']
+    },
 
-  CollectionController: {
-    'create': ['isAuthenticated', 'cleanMovieArray'],
-    'update': ['isAuthenticated', 'cleanMovieArray']
-  },
+    MovieController: {
+        '*': false
+    },
 
-  FranchiseController: {
-    'create': ['isAuthenticated', 'isStaff', 'cleanMovieArray'],
-    'update': ['isAuthenticated', 'isStaff', 'cleanMovieArray'],
-    'delete': ['isAuthenticated', 'isStaff']
-  },
+    ProxyController: {
+        '*': true
+    },
 
-  ProxyController: {
-      '*': true
-  },
+    ReviewController: {
+        'create': ['isAuthenticated', 'cleanMovie'],
+        'update': ['isAuthenticated', 'cleanMovie']
+    },
 
-  ReviewController: {
-    'create': ['isAuthenticated', 'cleanMovie'],
-    'update': ['isAuthenticated', 'cleanMovie']
-  },
-
-  UserController: {
-    'login': true,
-    'register': true
-  }
+    UserController: {
+        '*': true
+    }
 
 };

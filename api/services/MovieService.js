@@ -29,31 +29,18 @@ module.exports = {
 
         }
 
-        return cleanedMovie;
+        var movieSchema = {
+            imdbID: cleanedMovie.imdb_code,
+            coverURL: cleanedMovie.medium_cover_image,
+            genres: cleanedMovie.genres,
+            imdbRating: cleanedMovie.rating,
+            runtime: cleanedMovie.runtime,
+            title: cleanedMovie.title,
+            year: cleanedMovie.year,
+            yifyID: cleanedMovie.id
+        };
 
-    },
-
-    cleanArray: function (movieArray) {
-
-        var cleanedArray = [];
-
-        movieArray.forEach(function (movie) {
-
-            var cleanMovie = MovieService.clean(movie);
-
-            if (!cleanMovie) {
-
-                return false;
-
-            } else {
-
-                cleanedArray.push(cleanMovie);
-
-            }
-
-        });
-
-        return cleanedArray;
+        return movieSchema;
 
     }
 

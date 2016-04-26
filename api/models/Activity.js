@@ -13,30 +13,27 @@ module.exports = {
 
         // Required
 
-        activity: {
-            type: 'json',
-
-            /*
-
-            {
-                code: null,
-                karma: 0,
-                reference: null,
-                string: null,
-            }
-
-            */
-
+        code: {
+            type: 'string',
+            enum: ['d', 's', 'l', 'r8', 'ra', 're', 'wn', 'wy'],
             required: true
         },
 
-        // Optional
+        description: {
+            type: 'string',
+            defaultsTo: null
+        },
 
-        movie: {
-            type: 'json'
+        karmaDelta: {
+            type: 'number',
+            required: true
         },
 
         /* --- RELATIONS --- */
+
+        movie: {
+            model: 'movie'
+        },
 
         user: {
             model: 'user',

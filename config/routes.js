@@ -55,14 +55,6 @@ module.exports.routes = {
   'post /activity/markwatched': 'ActivityController.markWatched',
   'post /activity/unmarkwatched': 'ActivityController.unmarkWatched',
 
-  'post /collection/create': 'CollectionController.create',
-  'post /collection/delete': 'CollectionController.delete',
-  'post /collection/update': 'CollectionController.update',
-
-  'post /franchise/create': 'FranchiseController.create',
-  'post /franchise/delete': 'FranchiseController.delete',
-  'post /franchise/update': 'FranchiseController.update',
-
   'get /proxy/listmovies': 'ProxyController.list_movies',
   'get /proxy/moviedetails': 'ProxyController.movie_details',
   'get /proxy/moviesuggestions': 'ProxyController.movie_suggestions',
