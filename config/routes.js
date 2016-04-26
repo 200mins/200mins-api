@@ -46,24 +46,20 @@ module.exports.routes = {
   *                                                                          *
   ***************************************************************************/
 
-  'post /activity/download': 'ActivityController.download',
-  'post /activity/stream': 'ActivityController.stream',
-  'post /activity/like': 'ActivityController.like',
-  'post /activity/unlike': 'ActivityController.unlike',
-  'post /activity/markwatch': 'ActivityController.markWatch',
-  'post /activity/unmarkwatch': 'ActivityController.unmarkWatch',
-  'post /activity/markwatched': 'ActivityController.markWatched',
-  'post /activity/unmarkwatched': 'ActivityController.unmarkWatched',
+    'post /activity/download': 'ActivityController.download',
+    'post /activity/stream': 'ActivityController.stream',
+    'post /activity/like': 'ActivityController.like',
+    'post /activity/unlike': 'ActivityController.unlike',
+    'post /activity/markwatch': 'ActivityController.markWatch',
+    'post /activity/unmarkwatch': 'ActivityController.unmarkWatch',
+    'post /activity/markwatched': 'ActivityController.markWatched',
+    'post /activity/unmarkwatched': 'ActivityController.unmarkWatched',
 
-  'get /proxy/listmovies': 'ProxyController.list_movies',
-  'get /proxy/moviedetails': 'ProxyController.movie_details',
-  'get /proxy/moviesuggestions': 'ProxyController.movie_suggestions',
+    'get /proxy/listmovies': 'ProxyController.list_movies',
+    'get /proxy/moviedetails': 'ProxyController.movie_details',
+    'get /proxy/moviesuggestions': 'ProxyController.movie_suggestions',
 
-  'post /review/create': 'ReviewController.create',
-  'post /review/delete': 'ReviewController.delete',
-  'post /review/update': 'ReviewController.update',
-
-  'get /user/login': 'UserController.login',
-  'post /user/register': 'UserController.register'
+    'get /user/login': 'UserController.login',
+    'post /user/register': 'UserController.register'
 
 };

@@ -8,7 +8,7 @@ module.exports = function (req, res, next) {
 
         var cleanedMovie = MovieService.clean(req.body.movie);
 
-        if (!cleanedMovie) {
+        if (typeof cleanedMovie === 'undefined') {
 
             return res.badRequest();
 

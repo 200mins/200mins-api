@@ -9,13 +9,15 @@ module.exports = {
 
     login: function (req, res) {
 
-        if (!req.query.hasOwnProperty('username') || !req.query.hasOwnProperty('password')) {
+        var REQUEST = req.query;
+
+        if (!REQUEST.hasOwnProperty('username') || !REQUEST.hasOwnProperty('password')) {
 
             return res.badRequest();
 
         } else {
 
-            var findUserNeedle = {username: req.query.username};
+            var findUserNeedle = {username: REQUEST.username};
 
             User.findOne(findUserNeedle).exec(function (err, foundUser) {
 
@@ -28,23 +30,63 @@ module.exports = {
                     return res.stahp('We don\'t know you.');
 
                 } else {
-                    
-                    var isPasswordCorrect = CryptoService.encrypt(req.query.password) === foundUser.password;
 
-                    if (!isPasswordCorrect) {
+                    var karma = 0;
 
-                        return res.stahp('Wrong password.');
+                    var findActivitiesNeedle = {user: foundUser.id};
 
-                    } else {
+                    Activity.find(findActivitiesNeedle).exec(function (err, foundActivities) {
 
-                        var response = {
-                            token: JWTService.generate({id: foundUser.id, password: foundUser.password}),
-                            user: foundUser
-                        };
+                        if (err) {
 
-                        return res.json(response);
+                            return res.serverError(err);
 
-                    }
+                        } else {
+
+                            async.each(foundActivities, function (foundActivity, callback) {
+
+                                karma += foundActivity.karmaDelta;
+
+                                callback(null);
+
+                            }, function () {
+
+                                var updateUserNeedle = {karma: karma};
+
+                                User.update(findUserNeedle, updateUserNeedle).exec(function (err, updatedUsers) {
+
+                                    if (err) {
+
+                                        return res.serverError(err);
+
+                                    } else {
+
+                                        var isPasswordCorrect = CryptoService.encrypt(REQUEST.password) === updatedUsers[0].password;
+
+                                        if (!isPasswordCorrect) {
+
+                                            return res.stahp('Wrong password.');
+
+                                        } else {
+
+                                            var response = {
+                                                token: JWTService.generate({id: updatedUsers[0].id, password: updatedUsers[0].password}),
+                                                user: updatedUsers[0]
+                                            };
+
+                                            return res.json(response);
+
+                                        }
+
+                                    }
+
+                                });
+
+                            });
+
+                        }
+
+                    });
 
                 }
 

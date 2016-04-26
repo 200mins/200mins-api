@@ -1,12 +1,12 @@
 var cleanedMovieKeys = {
+    genres: true,
     id: true,
     imdb_code: true,
-    title: true,
-    year: true,
+    medium_cover_image: true,
     rating: true,
     runtime: true,
-    genres: true,
-    medium_cover_image: true
+    title: true,
+    year: true
 };
 
 module.exports = {
@@ -17,13 +17,13 @@ module.exports = {
 
         for (var key in cleanedMovieKeys) {
 
-            if (movie.hasOwnProperty(key)) {
+            if (!movie.hasOwnProperty(key)) {
 
-                cleanedMovie[key] = movie[key];
+                return;
 
             } else {
 
-                return false;
+                cleanedMovie[key] = movie[key];
 
             }
 

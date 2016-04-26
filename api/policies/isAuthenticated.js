@@ -1,61 +1,59 @@
 module.exports = function (req, res, next) {
 
-    var token;
-
-    if (req.headers.hasOwnProperty('authorization')) {
-
-        token = req.headers.authorization;
-
-    } else {
+    if (!req.headers.hasOwnProperty('authorization')) {
 
         return res.stahp('You must be logged-in to perform this action.');
 
-    }
+    } else {
 
-    JWTService.verify(token, function (err, token) {
+        var token = req.headers.authorization;
 
-        if (err) {
+        JWTService.verify(token, function (err, token) {
 
-            return res.kick('Please login again.');
+            if (err) {
 
-        } else {
+                return res.kick('Please login again.');
 
-            var findUserNeedle = {id: token.id};
+            } else {
 
-            User.findOne(findUserNeedle).exec(function (err, foundUser) {
+                var findUserNeedle = {id: token.id};
 
-                if (err) {
+                User.findOne(findUserNeedle).exec(function (err, foundUser) {
 
-                    return res.serverError(err);
+                    if (err) {
 
-                } else {
-
-                    if (typeof foundUser === 'undefined') {
-
-                        return res.kick('Please login again.');
+                        return res.serverError(err);
 
                     } else {
 
-                        if (token.password !== foundUser.password) {
+                        if (typeof foundUser === 'undefined') {
 
                             return res.kick('Please login again.');
 
                         } else {
 
-                            req.userID = foundUser.id;
+                            if (token.password !== foundUser.password) {
 
-                            return next();
+                                return res.kick('Please login again.');
+
+                            } else {
+
+                                req.userID = foundUser.id;
+
+                                return next();
+
+                            }
 
                         }
 
                     }
 
-                }
+                });
 
-            });
+            }
 
-        }
+        });
 
-    });
+    }
 
 };
