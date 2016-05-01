@@ -27,6 +27,8 @@ module.exports = function (req, res, next) {
                     url: 'http://yify.is/api/v2/list_movies.json?query_term=' + title
                 };
 
+                // TODO: Check error when body is not a valid JSON
+                
                 request(config, function (error, response, body) {
 
                     var movies;
@@ -59,11 +61,14 @@ module.exports = function (req, res, next) {
                         } else {
 
                             createMovieNeedle = {
-                                imdbID: movie.imdb_code,
-                                coverURL: movie.medium_cover_image,
-                                genres: movie.genres,
+                                imdbID: movie.imdb_code.trim(),
+                                coverURL: movie.medium_cover_image.trim(),
+                                genres: movie.genres.map(function (genre) {
+                                    return genre.trim();
+                                }),
                                 imdbRating: movie.rating,
-                                title: movie.title,
+                                mpaRating: movie.mpa_rating.trim().toUpperCase(),
+                                title: movie.title.trim(),
                                 year: movie.year
                             };
 

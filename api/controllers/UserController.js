@@ -7,17 +7,27 @@
 
 module.exports = {
 
-    login: function (req, res) {
+    getMovieLike: function (req, res) {},
 
-        var REQUEST = req.query;
+    getMovieWatchLater: function (req, res) {},
 
-        if (!REQUEST.hasOwnProperty('username') || !REQUEST.hasOwnProperty('password')) {
+    getMovieWatched: function (req, res) {},
 
-            return res.badRequest();
+    getSession: function (req, res) {
+
+        var username = req.param.username;
+
+        var password = req.query.password;
+
+        // TODO: Check if req.param.username check is required
+
+        if (!password || !username) {
+
+            return res.badRequest('password || username');
 
         } else {
 
-            var findUserNeedle = {username: REQUEST.username};
+            var findUserNeedle = {username: username};
 
             User.findOne(findUserNeedle).exec(function (err, foundUser) {
 
@@ -25,7 +35,7 @@ module.exports = {
 
                     return res.serverError(err);
 
-                } else if (typeof foundUser === 'undefined') {
+                } else if (!foundUser) {
 
                     return res.stahp('We don\'t know you.');
 
@@ -53,6 +63,8 @@ module.exports = {
 
                                 var updateUserNeedle = {karma: karma};
 
+                                // TODO: Check if updating updates one or all keys
+
                                 User.update(findUserNeedle, updateUserNeedle).exec(function (err, updatedUsers) {
 
                                     if (err) {
@@ -61,7 +73,7 @@ module.exports = {
 
                                     } else {
 
-                                        var isPasswordCorrect = CryptoService.encrypt(REQUEST.password) === updatedUsers[0].password;
+                                        var isPasswordCorrect = CryptoService.encrypt(password) === updatedUsers[0].password;
 
                                         if (!isPasswordCorrect) {
 
@@ -98,9 +110,9 @@ module.exports = {
 
     register: function (req, res) {
 
-        if (!req.body.hasOwnProperty('email') || !req.body.hasOwnProperty('username') || !req.body.hasOwnProperty('password')) {
+        if (!req.body.hasOwnProperty('email') || !req.body.hasOwnProperty('password') || !req.body.hasOwnProperty('username')) {
 
-            return res.badRequest();
+            return res.badRequest('email || password || username');
 
         } else {
 

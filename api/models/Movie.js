@@ -38,6 +38,11 @@ module.exports = {
             min: 0,
             required: true
         },
+        
+        mpaRating: {
+            type: 'string',
+            required: true
+        },
 
         runtime: {
             type: 'integer',
