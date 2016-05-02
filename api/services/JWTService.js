@@ -1,18 +1,18 @@
 var jwt = require('jsonwebtoken');
 
-var secret = sails.config.secret;
+var sessionSecret = sails.config.sessionSecret;
 
 module.exports = {
 
     generate: function (payload) {
 
-        return jwt.sign(payload, secret);
+        return jwt.sign(payload, sessionSecret);
 
     },
 
     verify: function (token, callback) {
 
-        return jwt.verify(token, secret, callback);
+        return jwt.verify(token, sessionSecret, callback);
 
     }
 

@@ -6,18 +6,6 @@ var secret = sails.config.secret;
 
 module.exports = {
 
-    encrypt: function (str) {
-
-        var cipher = crypto.createCipher(algorithm, secret);
-
-        var crypted = cipher.update(str, 'utf8', 'hex');
-
-        crypted += cipher.final('hex');
-
-        return crypted;
-
-    },
-
     decrypt: function (crypted) {
 
         var decipher = crypto.createDecipher(algorithm, secret);
@@ -27,6 +15,18 @@ module.exports = {
         str += decipher.final('utf8');
 
         return str;
+
+    },
+
+    encrypt: function (str) {
+
+        var cipher = crypto.createCipher(algorithm, secret);
+
+        var crypted = cipher.update(str, 'utf8', 'hex');
+
+        crypted += cipher.final('hex');
+
+        return crypted;
 
     }
 

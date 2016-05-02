@@ -18,7 +18,7 @@ module.exports.policies = {
     },
 
     UserController: {
-        register: true,
+        create: true,
         getMovieLike: true,
         getMovieWatchLater: true,
         getMovieWatched: true,
