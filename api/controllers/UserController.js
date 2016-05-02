@@ -6,10 +6,10 @@
  */
 
 module.exports = {
-    
+
     create: function (req, res) {
-        
-        // TODO: Validate input
+
+        // TODO: Add validations
 
         if (!req.body.hasOwnProperty('email') || !req.body.hasOwnProperty('password') || !req.body.hasOwnProperty('username')) {
 
@@ -18,7 +18,7 @@ module.exports = {
         } else {
 
             async.parallel({
-                
+
                 findUserByEmail: function (callback) {
 
                     var findUserNeedle = {email: CryptoService.encrypt(req.body.email)};
@@ -42,7 +42,7 @@ module.exports = {
                     });
 
                 },
-                
+
                 findUserByUsername: function (callback) {
 
                     var findUserNeedle = {username: req.body.username};
@@ -85,6 +85,8 @@ module.exports = {
 
                     }
 
+                    // Create user
+
                     var createUserNeedle = {
                         avatar: 'https://api.adorable.io/avatars/285/' + req.body.username,
                         email: CryptoService.encrypt(req.body.email),
@@ -118,18 +120,22 @@ module.exports = {
         }
 
     },
-    
+
     getMovieLike: function (req, res) {},
-    
+
     getMovieWatchLater: function (req, res) {},
-    
+
     getMovieWatched: function (req, res) {},
-    
+
     getSession: function (req, res) {
+
+        // Set variables
 
         var password = req.query.password;
 
         var username = req.params.username;
+
+        // Validate request
 
         if (!password) {
 
@@ -138,6 +144,8 @@ module.exports = {
         } else {
 
             var findUserNeedle = {username: username};
+
+            // Find user
 
             User.findOne(findUserNeedle).exec(function (err, foundUser) {
 
@@ -150,6 +158,8 @@ module.exports = {
                     return res.stahp('We don\'t know you. Please register.');
 
                 } else {
+
+                    // Calculate karma
 
                     var karma = 0;
 
@@ -170,6 +180,8 @@ module.exports = {
                                 callback(null);
 
                             }, function () {
+
+                                // Update user
 
                                 var updateUserNeedle = {karma: karma};
 

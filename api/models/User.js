@@ -47,7 +47,7 @@ module.exports = {
 
         type: {
             type: 'string',
-            enum: ['user', 'staff']
+            enum: ['staff', 'user']
         },
 
         /* --- RELATIONS --- */

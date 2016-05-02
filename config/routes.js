@@ -6,7 +6,7 @@ module.exports.routes = {
     'POST /activity/:imdbID/movie-watched': 'Activity.postMovieWatched',
     'POST /activity/:imdbID/play': 'Activity.postPlay',
 
-    'GET /movie/status': 'Movie.getStatus',
+    'GET /movie/:imdbID/status': 'Movie.getStatus',
 
     'GET /proxy/list_movies': 'Proxy.getListMovies',
     'GET /proxy/movie_details': 'Proxy.getMovieDetails',

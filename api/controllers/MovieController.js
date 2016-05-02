@@ -7,119 +7,113 @@
 
 module.exports = {
 
-    status: function (req, res) {
+    getStatus: function (req, res) {
 
-        if (!req.query.hasOwnProperty('movieID')) {
+        // Set variables
 
-            return res.badRequest();
+        var movieID = req.movieID;
 
-        } else {
+        var userID = req.userID;
 
-            var REQUEST = req.query;
-            
-            var USERID = req.userID;
+        async.parallel({
 
-            async.parallel({
+            isLike: function (callback) {
 
-                isLike: function (callback) {
+                var findActivityNeedle = {
+                    code: 'movie-like',
+                    movie: movieID,
+                    user: userID
+                };
 
-                    var findActivityNeedle = {
-                        code: 'l',
-                        movie: REQUEST.movieID,
-                        user: USERID
-                    };
+                Activity.findOne(findActivityNeedle).exec(function (err, foundActivity) {
 
-                    Activity.findOne(findActivityNeedle).exec(function (err, foundActivity) {
+                    if (err) {
 
-                        if (err) {
+                        callback(err);
 
-                            callback(err);
+                    } else if (!foundActivity) {
 
-                        } else if (typeof foundActivity === 'undefined') {
+                        callback(null, false);
 
-                            callback(null, false);
+                    } else {
 
-                        } else {
+                        callback(null, true);
 
-                            callback(null, true);
+                    }
 
-                        }
+                });
 
-                    });
+            },
 
-                },
+            isWatchLater: function (callback) {
 
-                isWatch: function (callback) {
+                var findActivityNeedle = {
+                    code: 'movie-watch-later',
+                    movie: movieID,
+                    user: userID
+                };
 
-                    var findActivityNeedle = {
-                        code: 'wn',
-                        movie: REQUEST.movieID,
-                        user: USERID
-                    };
+                Activity.findOne(findActivityNeedle).exec(function (err, foundActivity) {
 
-                    Activity.findOne(findActivityNeedle).exec(function (err, foundActivity) {
+                    if (err) {
 
-                        if (err) {
+                        callback(err);
 
-                            callback(err);
+                    } else if (!foundActivity) {
 
-                        } else if (typeof foundActivity === 'undefined') {
+                        callback(null, false);
 
-                            callback(null, false);
+                    } else {
 
-                        } else {
+                        callback(null, true);
 
-                            callback(null, true);
+                    }
 
-                        }
+                });
 
-                    });
+            },
 
-                },
+            isWatched: function (callback) {
 
-                isWatched: function (callback) {
+                var findActivityNeedle = {
+                    code: 'movie-watched',
+                    movie: movieID,
+                    user: userID
+                };
 
-                    var findActivityNeedle = {
-                        code: 'wy',
-                        movie: REQUEST.movieID,
-                        user: USERID
-                    };
+                Activity.findOne(findActivityNeedle).exec(function (err, foundActivity) {
 
-                    Activity.findOne(findActivityNeedle).exec(function (err, foundActivity) {
+                    if (err) {
 
-                        if (err) {
+                        callback(err);
 
-                            callback(err);
+                    } else if (!foundActivity) {
 
-                        } else if (typeof foundActivity === 'undefined') {
+                        callback(null, false);
 
-                            callback(null, false);
+                    } else {
 
-                        } else {
+                        callback(null, true);
 
-                            callback(null, true);
+                    }
 
-                        }
+                });
 
-                    });
+            }
 
-                }
+        }, function (err, result) {
 
-            }, function (err, result) {
+            if (err) {
 
-                if (err) {
+                return res.serverError(err);
 
-                    return res.serverError(err);
+            } else {
 
-                } else {
+                return res.json(result);
 
-                    return res.json(result);
+            }
 
-                }
-
-            });
-
-        }
+        });
 
     }
 

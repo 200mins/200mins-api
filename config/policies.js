@@ -14,11 +14,7 @@ module.exports.policies = {
     },
 
     UserController: {
-        create: true,
-        getMovieLike: true,
-        getMovieWatchLater: true,
-        getMovieWatched: true,
-        getSession: true
+        '*': true
     }
 
 };
