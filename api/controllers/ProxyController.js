@@ -8,7 +8,7 @@
 var request = require('request');
 
 module.exports = {
-    
+
     getListMovies: function (req, res) {
 
         var config = {
@@ -18,9 +18,9 @@ module.exports = {
 
         request(config, function (err, response, body) {
 
-            if (err) {
+            if (err || response.statusCode !== 200) {
 
-                return res.serverError(err);
+                return res.serverError({error: err, statusCode: response.statusCode});
 
             } else {
 
@@ -31,6 +31,7 @@ module.exports = {
         });
 
     },
+
     getMovieDetails: function (req, res) {
 
         if (req.query.hasOwnProperty('movie_id') && !isNaN(req.query.movie_id)) {
@@ -41,35 +42,20 @@ module.exports = {
                 with_images: true
             };
 
-            var url = 'https://yts.ag/api/v2/movie_details.json' + UtilityService.objectToQueryString(params);
+            var config = {
+                json: true,
+                url: 'https://yts.ag/api/v2/movie_details.json' + UtilityService.objectToQueryString(params)
+            };
 
-            request(url, function (err, response, body) {
+            request(config, function (err, response, body) {
 
-                if (!err && response.statusCode === 200 && body.length !== 0) {
+                if (err || response.statusCode !== 200) {
 
-                    var data = JSON.parse(body);
-
-                    if (data.status === 'ok') {
-
-                        if (data.data.movie.id > 0) {
-
-                            return res.json(data.data);
-
-                        } else {
-
-                            return res.notFound();
-
-                        }
-
-                    } else {
-
-                        return res.serverError(err);
-
-                    }
+                    return res.serverError({error: err, statusCode: response.statusCode});
 
                 } else {
 
-                    return res.serverError(err);
+                    return res.json(body.data);
 
                 }
 
@@ -77,7 +63,7 @@ module.exports = {
 
         } else {
 
-            return res.badRequest();
+            return res.badRequest('movie_id');
 
         }
 
