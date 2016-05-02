@@ -23,9 +23,11 @@ module.exports = {
 
         var movieID = req.movieID;
 
+        var quality;
+
         var userID = req.userID;
 
-        // Check request
+        // Validate request
 
         if (!req.query.hasOwnProperty('quality')) {
 
@@ -35,7 +37,7 @@ module.exports = {
 
             var quality = req.query.quality.toUpperCase();
 
-            if (!(quality === '3D' || quality === '720P' || quality === '1080P')) {
+            if (!(quality === '720P' || quality === '1080P' || quality === '3D')) {
 
                 return res.badRequest('quality');
 
@@ -58,6 +60,8 @@ module.exports = {
 
                     } else if (!foundActivity) {
 
+                        // Create activity
+
                         var createActivityNeedle = {
                             code: code,
                             description: quality,
@@ -74,7 +78,7 @@ module.exports = {
 
                             } else {
 
-                                return res.json(createdActivity);
+                                return res.json({karmaDelta: createdActivity.karmaDelta});
 
                             }
 
@@ -82,11 +86,7 @@ module.exports = {
 
                     } else {
 
-                        var response = foundActivity;
-
-                        response.karmaDelta = 0;
-
-                        return res.json(response);
+                        return res.json({karmaDelta: 0});
 
                     }
 
@@ -104,15 +104,15 @@ module.exports = {
 
         var code = 'movie-like';
 
-        var isLike = req.query.islike;
-
         var movieID = req.movieID;
 
         var userID = req.userID;
 
-        // Check request
+        var value = req.query.value;
 
-        if (!(isLike === true || isLike === false)) {
+        // Validate request
+
+        if (!(value === true || value === false)) {
 
             return res.badRequest('value');
 
@@ -134,7 +134,7 @@ module.exports = {
 
                 } else if (!foundActivity) {
 
-                    if (!isLike) {
+                    if (!value) {
 
                         return res.stahp('You haven\'t liked this movie.');
 
@@ -157,7 +157,7 @@ module.exports = {
 
                             } else {
 
-                                return res.json({karmaDeta: KARMAS[code]});
+                                return res.json({karmaDeta: createdActivity.karmaDelta});
 
                             }
 
@@ -167,7 +167,7 @@ module.exports = {
 
                 } else {
 
-                    if (!isLike) {
+                    if (!value) {
 
                         // Delete activity
 
@@ -179,7 +179,7 @@ module.exports = {
 
                             } else {
 
-                                return res.json({karmaDelta: KARMAS[code] * -1});
+                                return res.json({karmaDelta: foundActivity.karmaDelta * -1});
 
                             }
 
@@ -187,7 +187,7 @@ module.exports = {
 
                     } else {
 
-                        return res.stahp('You have already liked this movie.');
+                        return res.stahp('You\'ve already liked this movie.');
 
                     }
 
@@ -205,15 +205,15 @@ module.exports = {
 
         var code = 'movie-watch-later';
 
-        var isLike = req.query.islike;
-
         var movieID = req.movieID;
 
         var userID = req.userID;
 
-        // Check request
+        var value = req.query.value;
 
-        if (!(isLike === true || isLike === false)) {
+        // Validate request
+
+        if (!(value === true || value === false)) {
 
             return res.badRequest('value');
 
@@ -235,7 +235,7 @@ module.exports = {
 
                 } else if (!foundActivity) {
 
-                    if (!isLike) {
+                    if (!value) {
 
                         return res.stahp('You haven\'t marked this movie to watch later.');
 
@@ -258,7 +258,7 @@ module.exports = {
 
                             } else {
 
-                                return res.json({karmaDeta: KARMAS[code]});
+                                return res.json({karmaDeta: createdActivity.karmaDelta});
 
                             }
 
@@ -268,7 +268,7 @@ module.exports = {
 
                 } else {
 
-                    if (!isLike) {
+                    if (!value) {
 
                         // Delete activity
 
@@ -280,7 +280,7 @@ module.exports = {
 
                             } else {
 
-                                return res.json({karmaDelta: KARMAS[code] * -1});
+                                return res.json({karmaDelta: foundActivity.karmaDelta * -1});
 
                             }
 
@@ -288,7 +288,7 @@ module.exports = {
 
                     } else {
 
-                        return res.stahp('You have already marked this movie to watch later.');
+                        return res.stahp('You\'ve already marked this movie to watch later.');
 
                     }
 
@@ -306,15 +306,15 @@ module.exports = {
 
         var code = 'movie-watched';
 
-        var isLike = req.query.islike;
-
         var movieID = req.movieID;
 
         var userID = req.userID;
 
-        // Check request
+        var value = req.query.value;
 
-        if (!(isLike === true || isLike === false)) {
+        // Validate request
+
+        if (!(value === true || value === false)) {
 
             return res.badRequest('value');
 
@@ -336,7 +336,7 @@ module.exports = {
 
                 } else if (!foundActivity) {
 
-                    if (!isLike) {
+                    if (!value) {
 
                         return res.stahp('You haven\'t marked this movie as watched.');
 
@@ -359,7 +359,7 @@ module.exports = {
 
                             } else {
 
-                                return res.json({karmaDeta: KARMAS[code]});
+                                return res.json({karmaDeta: createdActivity.karmaDelta});
 
                             }
 
@@ -369,7 +369,7 @@ module.exports = {
 
                 } else {
 
-                    if (!isLike) {
+                    if (!value) {
 
                         // Delete activity
 
@@ -381,7 +381,7 @@ module.exports = {
 
                             } else {
 
-                                return res.json({karmaDelta: KARMAS[code] * -1});
+                                return res.json({karmaDelta: foundActivity.karmaDelta * -1});
 
                             }
 
@@ -389,7 +389,7 @@ module.exports = {
 
                     } else {
 
-                        return res.stahp('You have already marked this movie as watched.');
+                        return res.stahp('You\'ve already marked this movie as watched.');
 
                     }
 
@@ -409,9 +409,11 @@ module.exports = {
 
         var movieID = req.movieID;
 
+        var quality;
+
         var userID = req.userID;
 
-        // Check request
+        // Validate request
 
         if (!req.query.hasOwnProperty('quality')) {
 
@@ -421,7 +423,7 @@ module.exports = {
 
             var quality = req.query.quality.toUpperCase();
 
-            if (!(quality === '3D' || quality === '720P' || quality === '1080P')) {
+            if (!(quality === '720P' || quality === '1080P' || quality === '3D')) {
 
                 return res.badRequest('quality');
 
@@ -444,6 +446,8 @@ module.exports = {
 
                     } else if (!foundActivity) {
 
+                        // Create activity
+
                         var createActivityNeedle = {
                             code: code,
                             description: quality,
@@ -460,7 +464,7 @@ module.exports = {
 
                             } else {
 
-                                return res.json(createdActivity);
+                                return res.json({karmaDelta: createdActivity.karmaDelta});
 
                             }
 
@@ -468,11 +472,7 @@ module.exports = {
 
                     } else {
 
-                        var response = foundActivity;
-
-                        response.karmaDelta = 0;
-
-                        return res.json(response);
+                        return res.json({karmaDelta: 0});
 
                     }
 

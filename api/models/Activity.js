@@ -15,7 +15,6 @@ module.exports = {
 
         code: {
             type: 'string',
-            enum: ['d', 's', 'l', 'r8', 'ra', 'rv', 'wn', 'wy'],
             required: true
         },
 

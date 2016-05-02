@@ -1,3 +1,5 @@
+var request = require('request');
+
 module.exports = function (req, res, next) {
 
     // Set variables
@@ -16,55 +18,59 @@ module.exports = function (req, res, next) {
 
         } else if (!foundMovie) {
 
-            // Get movie
-
-            var request = require('request');
+            // Request movie
 
             var config = {
                 json: true,
-                url: 'http://yify.is/api/v2/list_movies.json?query_term=' + imdbID
+                url: 'https://yts.ag/api/v2/list_movies.json?query_term=' + imdbID
             };
-
-            // TODO: Check error when body is not a valid JSON
 
             request(config, function (err, response, body) {
 
-                var movie = body.data.movies[0];
+                if (err) {
 
-                if (movie.imdb_code !== imdbID) {
-
-                    return res.notFound('Movie not found.');
+                    return res.serverError(err);
 
                 } else {
 
-                    // Save movie
+                    var movie = body.data.movies[0];
 
-                    var createMovieNeedle = {
-                        imdbID: movie.imdb_code,
-                        coverURL: movie.medium_cover_image,
-                        genres: movie.genres,
-                        imdbRating: movie.rating,
-                        mpaRating: movie.mpa_rating.toUpperCase(),
-                        runtime: movie.runtime,
-                        title: movie.title,
-                        year: movie.year
-                    };
+                    if (movie.imdb_code !== imdbID) {
 
-                    Movie.create(createMovieNeedle).exec(function (err, createdMovie) {
+                        return res.notFound('Movie not found.');
 
-                        if (err) {
+                    } else {
 
-                            return res.serverError(err);
+                        // Create movie
 
-                        } else {
+                        var createMovieNeedle = {
+                            imdbID: movie.imdb_code,
+                            coverURL: movie.medium_cover_image,
+                            genres: movie.genres,
+                            imdbRating: movie.rating,
+                            mpaRating: movie.mpa_rating.toUpperCase(),
+                            runtime: movie.runtime,
+                            title: movie.title,
+                            year: movie.year
+                        };
 
-                            req.movieID = createdMovie.id;
+                        Movie.create(createMovieNeedle).exec(function (err, createdMovie) {
 
-                            return next();
+                            if (err) {
 
-                        }
+                                return res.serverError(err);
 
-                    });
+                            } else {
+
+                                req.movieID = createdMovie.id;
+
+                                return next();
+
+                            }
+
+                        });
+
+                    }
 
                 }
 

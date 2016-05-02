@@ -8,38 +8,30 @@
 var request = require('request');
 
 module.exports = {
+    
+    getListMovies: function (req, res) {
 
-    list_movies: function (req, res) {
+        var config = {
+            json: true,
+            url: 'https://yts.ag/api/v2/list_movies.json' + UtilityService.objectToQueryString(req.query)
+        };
 
-        var url = 'https://yts.ag/api/v2/list_movies.json' + UtilityService.objectToQueryString(req.query);
+        request(config, function (err, response, body) {
 
-        request(url, function (err, response, body) {
+            if (err) {
 
-            if (!err && response.statusCode === 200) {
-
-                var data = JSON.parse(body);
-
-                if (data.status === 'ok') {
-
-                    return res.json(data.data);
-
-                } else {
-
-                    return res.serverError(err);
-
-                }
+                return res.serverError(err);
 
             } else {
 
-                return res.serverError(err);
+                return res.json(body.data.movies);
 
             }
 
         });
 
     },
-
-    movie_details: function (req, res) {
+    getMovieDetails: function (req, res) {
 
         if (req.query.hasOwnProperty('movie_id') && !isNaN(req.query.movie_id)) {
 
@@ -68,44 +60,6 @@ module.exports = {
                             return res.notFound();
 
                         }
-
-                    } else {
-
-                        return res.serverError(err);
-
-                    }
-
-                } else {
-
-                    return res.serverError(err);
-
-                }
-
-            });
-
-        } else {
-
-            return res.badRequest();
-
-        }
-
-    },
-
-    movie_suggestions: function (req, res) {
-
-        if (req.query.hasOwnProperty('movie_id') && !isNaN(req.query.movie_id)) {
-
-            var url = 'https://yts.ag/api/v2/movie_suggestions.json?movie_id=' + req.query.movie_id;
-
-            request(url, function (err, response, body) {
-
-                if (!err && response.statusCode === 200) {
-
-                    var data = JSON.parse(body);
-
-                    if (data.status === 'ok') {
-
-                        return res.json(data.data);
 
                     } else {
 
