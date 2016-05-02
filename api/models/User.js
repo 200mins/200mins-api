@@ -35,16 +35,16 @@ module.exports = {
         },
 
         // Set automatically
-        
+
         avatar: {
             type: 'string',
             url: true
         },
-        
+
         karma: {
             type: 'integer'
         },
-        
+
         type: {
             type: 'string',
             enum: ['user', 'staff']
@@ -62,9 +62,9 @@ module.exports = {
     beforeCreate: function (user, callback) {
 
         user.karma = 0;
-        
+
         user.password = CryptoService.encrypt(user.password);
-        
+
         user.type = 'user';
 
         return callback(null);

@@ -5,216 +5,49 @@
  * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
  */
 
+var KARMAS = {
+    'download': -10,
+    'movie-like': 0,
+    'movie-watch-later': 0,
+    'movie-watched': 5,
+    'play': -5
+};
+
 module.exports = {
 
-    download: function (req, res) {
+    postDownload: function (req, res) {
 
-        var REQUEST = req.body;
+        // Set variables
 
-        var USERID = req.userID;
+        var code = 'download';
 
-        if (!REQUEST.hasOwnProperty('quality')) {
+        var movieID = req.movieID;
 
-            return res.badRequest();
+        var userID = req.userID;
 
-        } else {
+        // Check request
 
-            var quality = REQUEST.quality.toUpperCase();
+        if (!req.query.hasOwnProperty('quality')) {
 
-            if (!(quality === '3D' || quality === '720P' || quality === '1080P')) {
-
-                return res.badRequest();
-
-            } else {
-
-                var code = 'd';
-
-                var description = quality;
-
-                var findMovieNeedle = {imdbID: REQUEST.movie.imdbID};
-
-                Movie.findOrCreate(findMovieNeedle, REQUEST.movie).exec(function (err, foundOrCreatedMovie) {
-
-                    if (err) {
-
-                        return res.serverError(err);
-
-                    } else {
-
-                        var findActivityNeedle = {
-                            code: code,
-                            description: description,
-                            movie: foundOrCreatedMovie.id,
-                            user: USERID
-                        };
-
-                        Activity.findOne(findActivityNeedle).exec(function (err, foundActivity) {
-
-                            if (err) {
-
-                                return res.serverError(err);
-
-                            } else if (typeof foundActivity !== 'undefined') {
-
-                                var response = foundActivity;
-
-                                response.karmaDelta = 0;
-
-                                return res.json(response);
-
-                            } else {
-
-                                var createActivityNeedle = {
-                                    code: code,
-                                    description: description,
-                                    karmaDelta: sails.config.KARMAS[code],
-                                    movie: foundOrCreatedMovie.id,
-                                    user: USERID
-                                };
-
-                                Activity.create(createActivityNeedle).exec(function (err, createdActivity) {
-
-                                    if (err) {
-
-                                        return res.serverError(err);
-
-                                    } else {
-
-                                        return res.json(createdActivity);
-
-                                    }
-
-                                });
-
-                            }
-
-                        });
-
-                    }
-
-                });
-
-            }
-
-        }
-
-    },
-
-    stream: function (req, res) {
-
-        var REQUEST = req.body;
-
-        var USERID = req.userID;
-
-        if (!REQUEST.hasOwnProperty('quality')) {
-
-            return res.badRequest();
+            return res.badRequest('quality');
 
         } else {
 
-            var quality = REQUEST.quality.toUpperCase();
+            var quality = req.query.quality.toUpperCase();
 
             if (!(quality === '3D' || quality === '720P' || quality === '1080P')) {
 
-                return res.badRequest();
+                return res.badRequest('quality');
 
             } else {
 
-                var code = 's';
-
-                var description = quality;
-
-                var findMovieNeedle = {imdbID: REQUEST.movie.imdbID};
-
-                Movie.findOrCreate(findMovieNeedle, REQUEST.movie).exec(function (err, foundOrCreatedMovie) {
-
-                    if (err) {
-
-                        return res.serverError(err);
-
-                    } else {
-
-                        var findActivityNeedle = {
-                            code: code,
-                            description: description,
-                            movie: foundOrCreatedMovie.id,
-                            user: USERID
-                        };
-
-                        Activity.findOne(findActivityNeedle).exec(function (err, foundActivity) {
-
-                            if (err) {
-
-                                return res.serverError(err);
-
-                            } else if (typeof foundActivity !== 'undefined') {
-
-                                var response = foundActivity;
-
-                                response.karmaDelta = 0;
-
-                                return res.json(response);
-
-                            } else {
-
-                                var createActivityNeedle = {
-                                    code: code,
-                                    description: description,
-                                    karmaDelta: sails.config.KARMAS[code],
-                                    movie: foundOrCreatedMovie.id,
-                                    user: USERID
-                                };
-
-                                Activity.create(createActivityNeedle).exec(function (err, createdActivity) {
-
-                                    if (err) {
-
-                                        return res.serverError(err);
-
-                                    } else {
-
-                                        return res.json(createdActivity);
-
-                                    }
-
-                                });
-
-                            }
-
-                        });
-
-                    }
-
-                });
-
-            }
-
-        }
-
-    },
-
-    like: function (req, res) {
-
-        var REQUEST = req.body;
-
-        var USERID = req.userID;
-
-        var code = 'l';
-
-        var findMovieNeedle = {imdbID: REQUEST.movie.imdbID};
-
-        Movie.findOrCreate(findMovieNeedle, REQUEST.movie).exec(function (err, foundOrCreatedMovie) {
-
-            if (err) {
-
-                return res.serverError(err);
-
-            } else {
+                // Find activity
 
                 var findActivityNeedle = {
                     code: code,
-                    movie: foundOrCreatedMovie.id,
-                    user: USERID
+                    description: quality,
+                    movie: movieID,
+                    user: userID
                 };
 
                 Activity.findOne(findActivityNeedle).exec(function (err, foundActivity) {
@@ -223,17 +56,14 @@ module.exports = {
 
                         return res.serverError(err);
 
-                    } else if (typeof foundActivity !== 'undefined') {
-
-                        return res.stahp('You have already liked this movie.');
-
-                    } else {
+                    } else if (!foundActivity) {
 
                         var createActivityNeedle = {
                             code: code,
-                            karmaDelta: sails.config.KARMAS[code],
-                            movie: foundOrCreatedMovie.id,
-                            user: USERID
+                            description: quality,
+                            karmaDelta: KARMAS[code],
+                            movie: movieID,
+                            user: userID
                         };
 
                         Activity.create(createActivityNeedle).exec(function (err, createdActivity) {
@@ -250,53 +80,76 @@ module.exports = {
 
                         });
 
+                    } else {
+
+                        var response = foundActivity;
+
+                        response.karmaDelta = 0;
+
+                        return res.json(response);
+
                     }
 
                 });
 
             }
 
-        });
+        }
 
     },
 
-    unlike: function (req, res) {
+    postMovieLike: function (req, res) {
 
-        var REQUEST = req.body;
+        // Set variables
 
-        var USERID = req.userID;
+        var code = 'movie-like';
 
-        var code = 'l';
+        var isLike = req.query.islike;
 
-        var findMovieNeedle = {imdbID: REQUEST.movie.imdbID};
+        var movieID = req.movieID;
 
-        Movie.findOrCreate(findMovieNeedle, REQUEST.movie).exec(function (err, foundOrCreatedMovie) {
+        var userID = req.userID;
 
-            if (err) {
+        // Check request
 
-                return res.serverError(err);
+        if (!(isLike === true || isLike === false)) {
 
-            } else {
+            return res.badRequest('value');
 
-                var findActivityNeedle = {
-                    code: code,
-                    movie: foundOrCreatedMovie.id,
-                    user: USERID
-                };
+        } else {
 
-                Activity.findOne(findActivityNeedle).exec(function (err, foundActivity) {
+            // Find activity
 
-                    if (err) {
+            var findActivityNeedle = {
+                code: code,
+                movie: movieID,
+                user: userID
+            };
 
-                        return res.serverError(err);
+            Activity.findOne(findActivityNeedle).exec(function (err, foundActivity) {
 
-                    } else if (typeof foundActivity === 'undefined') {
+                if (err) {
+
+                    return res.serverError(err);
+
+                } else if (!foundActivity) {
+
+                    if (!isLike) {
 
                         return res.stahp('You haven\'t liked this movie.');
 
                     } else {
 
-                        Activity.destroy(findActivityNeedle).exec(function (err) {
+                        // Create activity
+
+                        var createActivityNeedle = {
+                            code: code,
+                            karmaDelta: KARMAS[code],
+                            movie: movieID,
+                            user: userID
+                        };
+
+                        Activity.create(createActivityNeedle).exec(function (err, createdActivity) {
 
                             if (err) {
 
@@ -304,7 +157,7 @@ module.exports = {
 
                             } else {
 
-                                return res.json({karmaDelta: sails.config.KARMAS[code] * -1});
+                                return res.json({karmaDeta: KARMAS[code]});
 
                             }
 
@@ -312,36 +165,275 @@ module.exports = {
 
                     }
 
-                });
+                } else {
 
-            }
+                    if (!isLike) {
 
-        });
+                        // Delete activity
+
+                        Activity.destroy(foundActivity).exec(function (err) {
+
+                            if (err) {
+
+                                return res.serverError(err);
+
+                            } else {
+
+                                return res.json({karmaDelta: KARMAS[code] * -1});
+
+                            }
+
+                        });
+
+                    } else {
+
+                        return res.stahp('You have already liked this movie.');
+
+                    }
+
+                }
+
+            });
+
+        }
 
     },
 
-    markWatch: function (req, res) {
+    postMovieWatchLater: function (req, res) {
 
-        var REQUEST = req.body;
+        // Set variables
 
-        var USERID = req.userID;
+        var code = 'movie-watch-later';
 
-        var code = 'wn';
+        var isLike = req.query.islike;
 
-        var findMovieNeedle = {imdbID: REQUEST.movie.imdbID};
+        var movieID = req.movieID;
 
-        Movie.findOrCreate(findMovieNeedle, REQUEST.movie).exec(function (err, foundOrCreatedMovie) {
+        var userID = req.userID;
 
-            if (err) {
+        // Check request
 
-                return res.serverError(err);
+        if (!(isLike === true || isLike === false)) {
+
+            return res.badRequest('value');
+
+        } else {
+
+            // Find activity
+
+            var findActivityNeedle = {
+                code: code,
+                movie: movieID,
+                user: userID
+            };
+
+            Activity.findOne(findActivityNeedle).exec(function (err, foundActivity) {
+
+                if (err) {
+
+                    return res.serverError(err);
+
+                } else if (!foundActivity) {
+
+                    if (!isLike) {
+
+                        return res.stahp('You haven\'t marked this movie to watch later.');
+
+                    } else {
+
+                        // Create activity
+
+                        var createActivityNeedle = {
+                            code: code,
+                            karmaDelta: KARMAS[code],
+                            movie: movieID,
+                            user: userID
+                        };
+
+                        Activity.create(createActivityNeedle).exec(function (err, createdActivity) {
+
+                            if (err) {
+
+                                return res.serverError(err);
+
+                            } else {
+
+                                return res.json({karmaDeta: KARMAS[code]});
+
+                            }
+
+                        });
+
+                    }
+
+                } else {
+
+                    if (!isLike) {
+
+                        // Delete activity
+
+                        Activity.destroy(foundActivity).exec(function (err) {
+
+                            if (err) {
+
+                                return res.serverError(err);
+
+                            } else {
+
+                                return res.json({karmaDelta: KARMAS[code] * -1});
+
+                            }
+
+                        });
+
+                    } else {
+
+                        return res.stahp('You have already marked this movie to watch later.');
+
+                    }
+
+                }
+
+            });
+
+        }
+
+    },
+
+    postMovieWatched: function (req, res) {
+
+        // Set variables
+
+        var code = 'movie-watched';
+
+        var isLike = req.query.islike;
+
+        var movieID = req.movieID;
+
+        var userID = req.userID;
+
+        // Check request
+
+        if (!(isLike === true || isLike === false)) {
+
+            return res.badRequest('value');
+
+        } else {
+
+            // Find activity
+
+            var findActivityNeedle = {
+                code: code,
+                movie: movieID,
+                user: userID
+            };
+
+            Activity.findOne(findActivityNeedle).exec(function (err, foundActivity) {
+
+                if (err) {
+
+                    return res.serverError(err);
+
+                } else if (!foundActivity) {
+
+                    if (!isLike) {
+
+                        return res.stahp('You haven\'t marked this movie as watched.');
+
+                    } else {
+
+                        // Create activity
+
+                        var createActivityNeedle = {
+                            code: code,
+                            karmaDelta: KARMAS[code],
+                            movie: movieID,
+                            user: userID
+                        };
+
+                        Activity.create(createActivityNeedle).exec(function (err, createdActivity) {
+
+                            if (err) {
+
+                                return res.serverError(err);
+
+                            } else {
+
+                                return res.json({karmaDeta: KARMAS[code]});
+
+                            }
+
+                        });
+
+                    }
+
+                } else {
+
+                    if (!isLike) {
+
+                        // Delete activity
+
+                        Activity.destroy(foundActivity).exec(function (err) {
+
+                            if (err) {
+
+                                return res.serverError(err);
+
+                            } else {
+
+                                return res.json({karmaDelta: KARMAS[code] * -1});
+
+                            }
+
+                        });
+
+                    } else {
+
+                        return res.stahp('You have already marked this movie as watched.');
+
+                    }
+
+                }
+
+            });
+
+        }
+
+    },
+
+    postPlay: function (req, res) {
+
+        // Set variables
+
+        var code = 'play';
+
+        var movieID = req.movieID;
+
+        var userID = req.userID;
+
+        // Check request
+
+        if (!req.query.hasOwnProperty('quality')) {
+
+            return res.badRequest('quality');
+
+        } else {
+
+            var quality = req.query.quality.toUpperCase();
+
+            if (!(quality === '3D' || quality === '720P' || quality === '1080P')) {
+
+                return res.badRequest('quality');
 
             } else {
 
+                // Find activity
+
                 var findActivityNeedle = {
                     code: code,
-                    movie: foundOrCreatedMovie.id,
-                    user: USERID
+                    description: quality,
+                    movie: movieID,
+                    user: userID
                 };
 
                 Activity.findOne(findActivityNeedle).exec(function (err, foundActivity) {
@@ -350,17 +442,14 @@ module.exports = {
 
                         return res.serverError(err);
 
-                    } else if (typeof foundActivity !== 'undefined') {
-
-                        return res.stahp('You\'ve already marked this to watch.');
-
-                    } else {
+                    } else if (!foundActivity) {
 
                         var createActivityNeedle = {
                             code: code,
-                            karmaDelta: sails.config.KARMAS[code],
-                            movie: foundOrCreatedMovie.id,
-                            user: USERID
+                            description: quality,
+                            karmaDelta: KARMAS[code],
+                            movie: movieID,
+                            user: userID
                         };
 
                         Activity.create(createActivityNeedle).exec(function (err, createdActivity) {
@@ -377,65 +466,13 @@ module.exports = {
 
                         });
 
-                    }
-
-                });
-
-            }
-
-        });
-
-    },
-
-    unmarkWatch: function (req, res) {
-
-        var REQUEST = req.body;
-
-        var USERID = req.userID;
-
-        var code = 'wn';
-
-        var findMovieNeedle = {imdbID: REQUEST.movie.imdbID};
-
-        Movie.findOrCreate(findMovieNeedle, REQUEST.movie).exec(function (err, foundOrCreatedMovie) {
-
-            if (err) {
-
-                return res.serverError(err);
-
-            } else {
-
-                var findActivityNeedle = {
-                    code: code,
-                    movie: foundOrCreatedMovie.id,
-                    user: USERID
-                };
-
-                Activity.findOne(findActivityNeedle).exec(function (err, foundActivity) {
-
-                    if (err) {
-
-                        return res.serverError(err);
-
-                    } else if (typeof foundActivity === 'undefined') {
-
-                        return res.stahp('You haven\'t marked this to watch.');
-
                     } else {
 
-                        Activity.destroy(findActivityNeedle).exec(function (err) {
+                        var response = foundActivity;
 
-                            if (err) {
+                        response.karmaDelta = 0;
 
-                                return res.serverError(err);
-
-                            } else {
-
-                                return res.json({karmaDelta: sails.config.KARMAS[code] * -1});
-
-                            }
-
-                        });
+                        return res.json(response);
 
                     }
 
@@ -443,134 +480,7 @@ module.exports = {
 
             }
 
-        });
-
-    },
-
-    markWatched: function (req, res) {
-
-        var REQUEST = req.body;
-
-        var USERID = req.userID;
-
-        var code = 'wy';
-
-        var findMovieNeedle = {imdbID: REQUEST.movie.imdbID};
-
-        Movie.findOrCreate(findMovieNeedle, REQUEST.movie).exec(function (err, foundOrCreatedMovie) {
-
-            if (err) {
-
-                return res.serverError(err);
-
-            } else {
-
-                var findActivityNeedle = {
-                    code: code,
-                    movie: foundOrCreatedMovie.id,
-                    user: USERID
-                };
-
-                Activity.findOne(findActivityNeedle).exec(function (err, foundActivity) {
-
-                    if (err) {
-
-                        return res.serverError(err);
-
-                    } else if (typeof foundActivity !== 'undefined') {
-
-                        return res.stahp('You\'ve already marked this as watched.');
-
-                    } else {
-
-                        var createActivityNeedle = {
-                            code: code,
-                            karmaDelta: sails.config.KARMAS[code],
-                            movie: foundOrCreatedMovie.id,
-                            user: USERID
-                        };
-
-                        Activity.create(createActivityNeedle).exec(function (err, createdActivity) {
-
-                            if (err) {
-
-                                return res.serverError(err);
-
-                            } else {
-
-                                return res.json(createdActivity);
-
-                            }
-
-                        });
-
-                    }
-
-                });
-
-            }
-
-        });
-
-    },
-
-    unmarkWatched: function (req, res) {
-
-        var REQUEST = req.body;
-
-        var USERID = req.userID;
-
-        var code = 'wy';
-
-        var findMovieNeedle = {imdbID: REQUEST.movie.imdbID};
-
-        Movie.findOrCreate(findMovieNeedle, REQUEST.movie).exec(function (err, foundOrCreatedMovie) {
-
-            if (err) {
-
-                return res.serverError(err);
-
-            } else {
-
-                var findActivityNeedle = {
-                    code: code,
-                    movie: foundOrCreatedMovie.id,
-                    user: USERID
-                };
-
-                Activity.findOne(findActivityNeedle).exec(function (err, foundActivity) {
-
-                    if (err) {
-
-                        return res.serverError(err);
-
-                    } else if (typeof foundActivity === 'undefined') {
-
-                        return res.stahp('You haven\'t marked this as watched.');
-
-                    } else {
-
-                        Activity.destroy(findActivityNeedle).exec(function (err) {
-
-                            if (err) {
-
-                                return res.serverError(err);
-
-                            } else {
-
-                                return res.json({karmaDelta: sails.config.KARMAS[code] * -1});
-
-                            }
-
-                        });
-
-                    }
-
-                });
-
-            }
-
-        });
+        }
 
     }
 

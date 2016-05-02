@@ -1,10 +1,10 @@
 module.exports.routes = {
 
     'POST /activity/:imdbID/download': 'Activity.postDownload',
-    'POST /activity/:imdbID/play': 'Activity.postPlay',
     'POST /activity/:imdbID/movie-like': 'Activity.postMovieLike',
     'POST /activity/:imdbID/movie-watch-later': 'Activity.postMovieWatchLater',
     'POST /activity/:imdbID/movie-watched': 'Activity.postMovieWatched',
+    'POST /activity/:imdbID/play': 'Activity.postPlay',
 
     'GET /movie/status': 'Movie.getStatus',
 

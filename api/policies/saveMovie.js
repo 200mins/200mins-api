@@ -1,121 +1,83 @@
 module.exports = function (req, res, next) {
 
-    if (!req.query.hasOwnProperty('imdbID') || !req.query.hasOwnProperty('title')) {
+    // Set variables
 
-        return res.badRequest('imdbID || title');
+    var imdbID = req.params.imdbID;
 
-    } else {
+    // Find movie
 
-        var imdbID = req.query.imdbID;
+    var findMovieNeedle = {imdbID: imdbID};
 
-        var title = req.query.title;
+    Movie.findOne(findMovieNeedle).exec(function (err, foundMovie) {
 
-        var findMovieNeedle = {imdbID: imdbID};
+        if (err) {
 
-        Movie.findOne(findMovieNeedle).exec(function (err, foundMovie) {
+            return res.serverError(err);
 
-            if (err) {
+        } else if (!foundMovie) {
 
-                return res.serverError(err);
+            // Get movie
 
-            } else if (!foundMovie) {
+            var request = require('request');
 
-                var request = require('request');
+            var config = {
+                json: true,
+                url: 'http://yify.is/api/v2/list_movies.json?query_term=' + imdbID
+            };
 
-                var config = {
-                    json: true,
-                    url: 'http://yify.is/api/v2/list_movies.json?query_term=' + title
-                };
+            // TODO: Check error when body is not a valid JSON
 
-                // TODO: Check error when body is not a valid JSON
-                
-                request(config, function (error, response, body) {
+            request(config, function (err, response, body) {
 
-                    var movies;
+                var movie = body.data.movies[0];
 
-                    try {
+                if (movie.imdb_code !== imdbID) {
 
-                        movies = JSON.parse(body).data.movies;
+                    return res.notFound('Movie not found.');
 
-                    } catch (err) {
+                } else {
 
-                        var errorResponse = {
-                            err: err,
-                            responseBody: body,
-                            responseError: error,
-                            responseStatusCode: response.statusCode
-                        };
+                    // Save movie
 
-                        return res.serverError(errorResponse);
+                    var createMovieNeedle = {
+                        imdbID: movie.imdb_code,
+                        coverURL: movie.medium_cover_image,
+                        genres: movie.genres,
+                        imdbRating: movie.rating,
+                        mpaRating: movie.mpa_rating.toUpperCase(),
+                        runtime: movie.runtime,
+                        title: movie.title,
+                        year: movie.year
+                    };
 
-                    }
+                    Movie.create(createMovieNeedle).exec(function (err, createdMovie) {
 
-                    var createMovieNeedle;
+                        if (err) {
 
-                    async.each(movies, function (movie, callback) {
-
-                        if (movie.imdb_code !== imdbID) {
-
-                            callback(null);
+                            return res.serverError(err);
 
                         } else {
 
-                            createMovieNeedle = {
-                                imdbID: movie.imdb_code.trim(),
-                                coverURL: movie.medium_cover_image.trim(),
-                                genres: movie.genres.map(function (genre) {
-                                    return genre.trim();
-                                }),
-                                imdbRating: movie.rating,
-                                mpaRating: movie.mpa_rating.trim().toUpperCase(),
-                                title: movie.title.trim(),
-                                year: movie.year
-                            };
+                            req.movieID = createdMovie.id;
 
-                            callback(null);
-
-                        }
-
-                    }, function () {
-
-                        if (!createMovieNeedle) {
-
-                            return res.notFound('Movie not found online.');
-
-                        } else {
-
-                            Movie.create(createMovieNeedle).exec(function (err, createdMovie) {
-
-                                if (err) {
-
-                                    return res.serverError(err);
-
-                                } else {
-
-                                    req.movieID = createdMovie.id;
-
-                                    return next();
-
-                                }
-
-                            });
+                            return next();
 
                         }
 
                     });
 
-                });
+                }
 
-            } else {
+            });
 
-                req.movieID = foundMovie.id;
+        } else {
 
-                return next();
+            req.movieID = foundMovie.id;
 
-            }
+            return next();
 
-        });
+        }
 
-    }
+    });
 
 };

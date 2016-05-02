@@ -1,11 +1,7 @@
 module.exports.policies = {
 
     ActivityController: {
-        postDownload: ['isAuthenticated', 'saveMovie'],
-        postPlay: ['isAuthenticated', 'saveMovie'],
-        postMovieLike: ['isAuthenticated', 'saveMovie'],
-        postMovieWatchLater: ['isAuthenticated', 'saveMovie'],
-        postMovieWatched: ['isAuthenticated', 'saveMovie']
+        '*': ['isAuthenticated', 'saveMovie']
     },
 
     MovieController: {
