@@ -31,6 +31,10 @@ module.exports = function (req, res, next) {
 
                     return res.serverError(err);
 
+                } else if (body.data.movie_count !== 1) {
+
+                    return res.serverError('Movie not found.');
+
                 } else {
 
                     var movie = body.data.movies[0];
@@ -44,9 +48,9 @@ module.exports = function (req, res, next) {
                         // Create movie
 
                         var createMovieNeedle = {
-                            imdbID: movie.imdb_code,
                             coverURL: movie.medium_cover_image,
                             genres: movie.genres,
+                            imdbID: movie.imdb_code,
                             imdbRating: movie.rating,
                             mpaRating: movie.mpa_rating.toUpperCase(),
                             runtime: movie.runtime,

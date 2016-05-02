@@ -112,7 +112,7 @@ module.exports = {
 
         // Validate request
 
-        if (!(value === true || value === false)) {
+        if (!(value === 'true' || value === 'false')) {
 
             return res.badRequest('value');
 
@@ -134,7 +134,7 @@ module.exports = {
 
                 } else if (!foundActivity) {
 
-                    if (!value) {
+                    if (value !== 'true') {
 
                         return res.stahp('You haven\'t liked this movie.');
 
@@ -167,7 +167,7 @@ module.exports = {
 
                 } else {
 
-                    if (!value) {
+                    if (value !== 'true') {
 
                         // Delete activity
 
@@ -213,7 +213,7 @@ module.exports = {
 
         // Validate request
 
-        if (!(value === true || value === false)) {
+        if (!(value === 'true' || value === 'false')) {
 
             return res.badRequest('value');
 
@@ -235,7 +235,7 @@ module.exports = {
 
                 } else if (!foundActivity) {
 
-                    if (!value) {
+                    if (value !== 'true') {
 
                         return res.stahp('You haven\'t marked this movie to watch later.');
 
@@ -268,7 +268,7 @@ module.exports = {
 
                 } else {
 
-                    if (!value) {
+                    if (value !== 'true') {
 
                         // Delete activity
 
@@ -314,7 +314,7 @@ module.exports = {
 
         // Validate request
 
-        if (!(value === true || value === false)) {
+        if (!(value === 'true' || value === 'false')) {
 
             return res.badRequest('value');
 
@@ -336,7 +336,7 @@ module.exports = {
 
                 } else if (!foundActivity) {
 
-                    if (!value) {
+                    if (value !== 'true') {
 
                         return res.stahp('You haven\'t marked this movie as watched.');
 
@@ -369,7 +369,7 @@ module.exports = {
 
                 } else {
 
-                    if (!value) {
+                    if (value !== 'true') {
 
                         // Delete activity
 

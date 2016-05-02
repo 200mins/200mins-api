@@ -38,7 +38,7 @@ module.exports = {
             min: 0,
             required: true
         },
-        
+
         mpaRating: {
             type: 'string',
             required: true
@@ -59,11 +59,6 @@ module.exports = {
             type: 'integer',
             max: 2017,
             min: 1890,
-            required: true
-        },
-
-        yifyID: {
-            type: 'string',
             required: true
         },
 
