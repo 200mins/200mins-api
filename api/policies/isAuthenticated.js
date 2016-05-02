@@ -2,7 +2,7 @@ module.exports = function (req, res, next) {
 
     if (!req.headers.hasOwnProperty('authorization')) {
 
-        return res.stahp('You must be logged-in to perform this action.');
+        return res.stahp('You must be logged-in to do this.');
 
     } else {
 
@@ -26,9 +26,9 @@ module.exports = function (req, res, next) {
 
                     } else {
 
-                        if (typeof foundUser === 'undefined') {
+                        if (!foundUser) {
 
-                            return res.kick('Please login again.');
+                            return res.kick('Please register again.');
 
                         } else {
 

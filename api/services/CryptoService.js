@@ -2,7 +2,7 @@ var crypto = require('crypto');
 
 var algorithm = 'aes-256-ctr';
 
-var secret = sails.config.secret;
+var secret = sails.config.cryptoSecret;
 
 module.exports = {
 
