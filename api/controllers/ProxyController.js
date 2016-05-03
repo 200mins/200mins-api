@@ -18,9 +18,9 @@ module.exports = {
 
         request(config, function (err, response, body) {
 
-            if (err || response.statusCode !== 200) {
+            if (err) {
 
-                return res.serverError({error: err, statusCode: response.statusCode});
+                return res.serverError(err);
 
             } else {
 
@@ -49,9 +49,9 @@ module.exports = {
 
             request(config, function (err, response, body) {
 
-                if (err || response.statusCode !== 200) {
+                if (err) {
 
-                    return res.serverError({error: err, statusCode: response.statusCode});
+                    return res.serverError(err);
 
                 } else {
 

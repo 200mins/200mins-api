@@ -29,9 +29,9 @@ module.exports = function (req, res, next) {
 
             request(config, function (err, response, body) {
 
-                if (err || response.statusCode !== 200) {
+                if (err) {
 
-                    return res.serverError({error: err, statusCode: response.statusCode});
+                    return res.serverError(err);
 
                 } else if (body.data.movie_count !== 1) {
 
