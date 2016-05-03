@@ -1,5 +1,7 @@
 var request = require('request');
 
+var MPA_RATINGS = ['G', 'PG', 'PG-13', 'R', 'NC-17'];
+
 module.exports = function (req, res, next) {
 
     // Set variables
@@ -57,6 +59,12 @@ module.exports = function (req, res, next) {
                             title: movie.title,
                             year: movie.year
                         };
+
+                        if (MPA_RATINGS.indexOf(createMovieNeedle.mpaRating) === -1) {
+
+                            delete createMovieNeedle.mpaRating;
+
+                        }
 
                         Movie.create(createMovieNeedle).exec(function (err, createdMovie) {
 

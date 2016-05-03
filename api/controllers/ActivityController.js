@@ -157,7 +157,7 @@ module.exports = {
 
                             } else {
 
-                                return res.json({karmaDeta: createdActivity.karmaDelta});
+                                return res.json({karmaDelta: createdActivity.karmaDelta});
 
                             }
 
@@ -258,7 +258,7 @@ module.exports = {
 
                             } else {
 
-                                return res.json({karmaDeta: createdActivity.karmaDelta});
+                                return res.json({karmaDelta: createdActivity.karmaDelta});
 
                             }
 
@@ -359,7 +359,7 @@ module.exports = {
 
                             } else {
 
-                                return res.json({karmaDeta: createdActivity.karmaDelta});
+                                return res.json({karmaDelta: createdActivity.karmaDelta});
 
                             }
 

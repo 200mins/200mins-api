@@ -24,7 +24,7 @@ module.exports = {
 
             } else {
 
-                return res.json(body.data.movies);
+                return res.json(body.data);
 
             }
 

@@ -41,7 +41,7 @@ module.exports = {
 
         mpaRating: {
             type: 'string',
-            required: true
+            defaultsTo: null
         },
 
         runtime: {
