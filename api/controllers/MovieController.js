@@ -7,7 +7,7 @@
 
 module.exports = {
 
-    getStatus: function (req, res) {
+    getUserActivity: function (req, res) {
 
         // Set variables
 
@@ -45,10 +45,10 @@ module.exports = {
 
             },
 
-            isWatchLater: function (callback) {
+            isMarkWatchLater: function (callback) {
 
                 var findActivityNeedle = {
-                    code: 'movie-watch-later',
+                    code: 'movie-mark-watch-later',
                     movie: movieID,
                     user: userID
                 };
@@ -73,10 +73,10 @@ module.exports = {
 
             },
 
-            isWatched: function (callback) {
+            isMarkWatched: function (callback) {
 
                 var findActivityNeedle = {
-                    code: 'movie-watched',
+                    code: 'movie-mark-watched',
                     movie: movieID,
                     user: userID
                 };

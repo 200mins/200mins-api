@@ -1,6 +1,6 @@
 var request = require('request');
 
-var MPA_RATINGS = ['G', 'PG', 'PG-13', 'R', 'NC-17'];
+var mpaRatings = ['G', 'PG', 'PG-13', 'R', 'NC-17'];
 
 module.exports = function (req, res, next) {
 
@@ -35,7 +35,7 @@ module.exports = function (req, res, next) {
 
                 } else if (body.data.movie_count !== 1) {
 
-                    return res.serverError('Movie not found.');
+                    return res.stahp('Couldn\'t get movie details.');
 
                 } else {
 
@@ -43,7 +43,7 @@ module.exports = function (req, res, next) {
 
                     if (movie.imdb_code !== imdbID) {
 
-                        return res.notFound('Movie not found.');
+                        return res.stahp('Couldn\'t get movie details.');
 
                     } else {
 
@@ -60,7 +60,7 @@ module.exports = function (req, res, next) {
                             year: movie.year
                         };
 
-                        if (MPA_RATINGS.indexOf(createMovieNeedle.mpaRating) === -1) {
+                        if (mpaRatings.indexOf(createMovieNeedle.mpaRating) === -1) {
 
                             delete createMovieNeedle.mpaRating;
 

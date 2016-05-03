@@ -121,11 +121,160 @@ module.exports = {
 
     },
 
-    getMovieLike: function (req, res) {},
+    getMovieDownload: function(req, res){
 
-    getMovieWatchLater: function (req, res) {},
+        // TODO: Add pagination
 
-    getMovieWatched: function (req, res) {},
+        // Set variables
+
+        var userID = req.userID;
+
+        // Find activities
+
+        var findActivityNeedle = {
+            code: 'movie-download',
+            user: userID
+        };
+
+        Activity.find(findActivityNeedle).populate('movie').exec(function (err, foundActivities) {
+
+            if (err) {
+
+                return res.serverError(err);
+
+            } else {
+
+                return res.json(foundActivities);
+
+            }
+
+        });
+
+    },
+
+    getMovieLike: function (req, res) {
+
+        // TODO: Add pagination
+
+        // Set variables
+
+        var userID = req.userID;
+
+        // Find activities
+
+        var findActivityNeedle = {
+            code: 'movie-like',
+            user: userID
+        };
+
+        Activity.find(findActivityNeedle).populate('movie').exec(function (err, foundActivities) {
+
+            if (err) {
+
+                return res.serverError(err);
+
+            } else {
+
+                return res.json(foundActivities);
+
+            }
+
+        });
+
+    },
+
+    getMovieMarkWatchLater: function (req, res) {
+
+        // TODO: Add pagination
+
+        // Set variables
+
+        var userID = req.userID;
+
+        // Find activities
+
+        var findActivityNeedle = {
+            code: 'movie-watch-later',
+            user: userID
+        };
+
+        Activity.find(findActivityNeedle).populate('movie').exec(function (err, foundActivities) {
+
+            if (err) {
+
+                return res.serverError(err);
+
+            } else {
+
+                return res.json(foundActivities);
+
+            }
+
+        });
+
+    },
+
+    getMovieMarkWatched: function (req, res) {
+
+        // TODO: Add pagination
+
+        // Set variables
+
+        var userID = req.userID;
+
+        // Find activities
+
+        var findActivityNeedle = {
+            code: 'movie-watched',
+            user: userID
+        };
+
+        Activity.find(findActivityNeedle).populate('movie').exec(function (err, foundActivities) {
+
+            if (err) {
+
+                return res.serverError(err);
+
+            } else {
+
+                return res.json(foundActivities);
+
+            }
+
+        });
+
+    },
+
+    getMoviePlay: function(req, res){
+
+        // TODO: Add pagination
+
+        // Set variables
+
+        var userID = req.userID;
+
+        // Find activities
+
+        var findActivityNeedle = {
+            code: 'movie-play',
+            user: userID
+        };
+
+        Activity.find(findActivityNeedle).populate('movie').exec(function (err, foundActivities) {
+
+            if (err) {
+
+                return res.serverError(err);
+
+            } else {
+
+                return res.json(foundActivities);
+
+            }
+
+        });
+
+    },
 
     getSession: function (req, res) {
 
@@ -133,7 +282,7 @@ module.exports = {
 
         var password = req.query.password;
 
-        var username = req.params.username;
+        var userID = req.userID;
 
         // Validate request
 
@@ -143,80 +292,60 @@ module.exports = {
 
         } else {
 
-            var findUserNeedle = {username: username};
+            // Calculate karma
 
-            // Find user
+            var karma = 0;
 
-            User.findOne(findUserNeedle).exec(function (err, foundUser) {
+            var findActivitiesNeedle = {user: userID};
+
+            Activity.find(findActivitiesNeedle).exec(function (err, foundActivities) {
 
                 if (err) {
 
                     return res.serverError(err);
 
-                } else if (!foundUser) {
-
-                    return res.stahp('We don\'t know you. Please register.');
-
                 } else {
 
-                    // Calculate karma
+                    async.each(foundActivities, function (foundActivity, callback) {
 
-                    var karma = 0;
+                        karma += foundActivity.karmaDelta;
 
-                    var findActivitiesNeedle = {user: foundUser.id};
+                        callback(null);
 
-                    Activity.find(findActivitiesNeedle).exec(function (err, foundActivities) {
+                    }, function () {
 
-                        if (err) {
+                        // Update user
 
-                            return res.serverError(err);
+                        var updateUserNeedle = {karma: karma};
 
-                        } else {
+                        User.update(userID, updateUserNeedle).exec(function (err, updatedUsers) {
 
-                            async.each(foundActivities, function (foundActivity, callback) {
+                            if (err) {
 
-                                karma += foundActivity.karmaDelta;
+                                return res.serverError(err);
 
-                                callback(null);
+                            } else {
 
-                            }, function () {
+                                var isPasswordCorrect = CryptoService.encrypt(password) === updatedUsers[0].password;
 
-                                // Update user
+                                if (!isPasswordCorrect) {
 
-                                var updateUserNeedle = {karma: karma};
+                                    return res.stahp('Wrong password.');
 
-                                User.update(findUserNeedle, updateUserNeedle).exec(function (err, updatedUsers) {
+                                } else {
 
-                                    if (err) {
+                                    var response = {
+                                        token: JWTService.generate({id: updatedUsers[0].id, password: updatedUsers[0].password}),
+                                        user: updatedUsers[0]
+                                    };
 
-                                        return res.serverError(err);
+                                    return res.json(response);
 
-                                    } else {
+                                }
 
-                                        var isPasswordCorrect = CryptoService.encrypt(password) === updatedUsers[0].password;
+                            }
 
-                                        if (!isPasswordCorrect) {
-
-                                            return res.stahp('Wrong password.');
-
-                                        } else {
-
-                                            var response = {
-                                                token: JWTService.generate({id: updatedUsers[0].id, password: updatedUsers[0].password}),
-                                                user: updatedUsers[0]
-                                            };
-
-                                            return res.json(response);
-
-                                        }
-
-                                    }
-
-                                });
-
-                            });
-
-                        }
+                        });
 
                     });
 

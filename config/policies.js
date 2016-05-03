@@ -1,11 +1,11 @@
 module.exports.policies = {
 
     ActivityController: {
-        '*': ['isAuthenticated', 'saveMovie']
+        '*': ['isJWTValid', 'saveMovie']
     },
 
     MovieController: {
-        getStatus: ['isAuthenticated', 'saveMovie']
+        getStatus: ['isJWTValid', 'saveMovie']
     },
 
     ProxyController: {
@@ -14,7 +14,8 @@ module.exports.policies = {
     },
 
     UserController: {
-        '*': true
+        '*': 'isUserValid',
+        create: true
     }
 
 };

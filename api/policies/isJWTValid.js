@@ -1,10 +1,14 @@
 module.exports = function (req, res, next) {
 
+    // Validate request
+
     if (!req.headers.hasOwnProperty('authorization')) {
 
         return res.stahp('You must be logged-in to do this.');
 
     } else {
+
+        // Verify token
 
         var token = req.headers.authorization;
 
@@ -16,7 +20,9 @@ module.exports = function (req, res, next) {
 
             } else {
 
-                var findUserNeedle = {id: token.id};
+                // Verify user
+
+                var findUserNeedle = token.id;
 
                 User.findOne(findUserNeedle).exec(function (err, foundUser) {
 

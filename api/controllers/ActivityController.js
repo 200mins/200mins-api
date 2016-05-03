@@ -6,20 +6,20 @@
  */
 
 var KARMAS = {
-    'download': -10,
+    'movie-download': -10,
     'movie-like': 0,
-    'movie-watch-later': 0,
-    'movie-watched': 5,
-    'play': -5
+    'movie-mark-watch-later': 0,
+    'movie-mark-watched': 5,
+    'movie-play': -5
 };
 
 module.exports = {
 
-    postDownload: function (req, res) {
+    postMovieDownload: function (req, res) {
 
         // Set variables
 
-        var code = 'download';
+        var code = 'movie-download';
 
         var movieID = req.movieID;
 
@@ -199,11 +199,11 @@ module.exports = {
 
     },
 
-    postMovieWatchLater: function (req, res) {
+    postMovieMarkWatchLater: function (req, res) {
 
         // Set variables
 
-        var code = 'movie-watch-later';
+        var code = 'movie-mark-watch-later';
 
         var movieID = req.movieID;
 
@@ -300,11 +300,11 @@ module.exports = {
 
     },
 
-    postMovieWatched: function (req, res) {
+    postMovieMarkWatched: function (req, res) {
 
         // Set variables
 
-        var code = 'movie-watched';
+        var code = 'movie-mark-watched';
 
         var movieID = req.movieID;
 
@@ -401,11 +401,11 @@ module.exports = {
 
     },
 
-    postPlay: function (req, res) {
+    postMoviePlay: function (req, res) {
 
         // Set variables
 
-        var code = 'play';
+        var code = 'movie-play';
 
         var movieID = req.movieID;
 
