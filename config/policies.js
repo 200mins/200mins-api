@@ -9,12 +9,11 @@ module.exports.policies = {
     },
 
     ProxyController: {
-        getListMovies: true,
-        getMovieDetails: true
+        '*': true
     },
 
     UserController: {
-        '*': 'isUserValid',
+        '*': 'isUsernameValid',
         create: true
     }
 

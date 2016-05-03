@@ -17,7 +17,7 @@ module.exports = {
 
         async.parallel({
 
-            isLike: function (callback) {
+            isMovieLike: function (callback) {
 
                 var findActivityNeedle = {
                     code: 'movie-like',
@@ -45,7 +45,7 @@ module.exports = {
 
             },
 
-            isMarkWatchLater: function (callback) {
+            isMovieMarkWatchLater: function (callback) {
 
                 var findActivityNeedle = {
                     code: 'movie-mark-watch-later',
@@ -73,7 +73,7 @@ module.exports = {
 
             },
 
-            isMarkWatched: function (callback) {
+            isMovieMarkWatched: function (callback) {
 
                 var findActivityNeedle = {
                     code: 'movie-mark-watched',

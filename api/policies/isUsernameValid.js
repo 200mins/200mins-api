@@ -20,7 +20,7 @@ module.exports = function (req, res, next) {
 
             } else if (!foundUser) {
 
-                return res.stahp('There isn\'t a user with this username.');
+                return res.stahp('User doesn\'t exist.');
 
             } else {
 
