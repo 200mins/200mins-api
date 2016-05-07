@@ -5,7 +5,7 @@ module.exports.policies = {
     },
 
     MovieController: {
-        getStatus: ['isJWTValid', 'saveMovie']
+        getUserActivity: ['isJWTValid', 'saveMovie']
     },
 
     ProxyController: {
