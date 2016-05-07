@@ -9,8 +9,6 @@ module.exports = {
 
     create: function (req, res) {
 
-        // TODO: Add validations
-
         if (!req.body.hasOwnProperty('city') || !req.body.hasOwnProperty('countryCode') || !req.body.hasOwnProperty('email') || !req.body.hasOwnProperty('password') || !req.body.hasOwnProperty('username')) {
 
             return res.badRequest('city || countryCode || email || password || username');
@@ -79,13 +77,11 @@ module.exports = {
 
                         if (result[key]) {
 
-                            return res.stahp('A user with that ' + result[key] + ' exists.');
+                            return res.stahp('A user with that ' + result[key] + ' already exists.');
 
                         }
 
                     }
-
-                    // Create user
 
                     var createUserNeedle = {
                         avatar: 'https://api.adorable.io/avatars/285/' + req.body.username,
@@ -125,17 +121,9 @@ module.exports = {
 
     getMovieDownload: function(req, res){
 
-        // TODO: Add pagination
-
-        // Set variables
-
-        var userID = req.userID;
-
-        // Find activities
-
         var findActivityNeedle = {
             code: 'movie-download',
-            user: userID
+            user: req.userID
         };
 
         Activity.find(findActivityNeedle).populate('movie').exec(function (err, foundActivities) {
@@ -156,17 +144,9 @@ module.exports = {
 
     getMovieLike: function (req, res) {
 
-        // TODO: Add pagination
-
-        // Set variables
-
-        var userID = req.userID;
-
-        // Find activities
-
         var findActivityNeedle = {
             code: 'movie-like',
-            user: userID
+            user: req.userID
         };
 
         Activity.find(findActivityNeedle).populate('movie').exec(function (err, foundActivities) {
@@ -187,17 +167,9 @@ module.exports = {
 
     getMovieMarkWatchLater: function (req, res) {
 
-        // TODO: Add pagination
-
-        // Set variables
-
-        var userID = req.userID;
-
-        // Find activities
-
         var findActivityNeedle = {
-            code: 'movie-watch-later',
-            user: userID
+            code: 'movie-mark-watch-later',
+            user: req.userID
         };
 
         Activity.find(findActivityNeedle).populate('movie').exec(function (err, foundActivities) {
@@ -218,17 +190,9 @@ module.exports = {
 
     getMovieMarkWatched: function (req, res) {
 
-        // TODO: Add pagination
-
-        // Set variables
-
-        var userID = req.userID;
-
-        // Find activities
-
         var findActivityNeedle = {
-            code: 'movie-watched',
-            user: userID
+            code: 'movie-mark-watched',
+            user: req.userID
         };
 
         Activity.find(findActivityNeedle).populate('movie').exec(function (err, foundActivities) {
@@ -249,17 +213,9 @@ module.exports = {
 
     getMoviePlay: function(req, res){
 
-        // TODO: Add pagination
-
-        // Set variables
-
-        var userID = req.userID;
-
-        // Find activities
-
         var findActivityNeedle = {
             code: 'movie-play',
-            user: userID
+            user: req.userID
         };
 
         Activity.find(findActivityNeedle).populate('movie').exec(function (err, foundActivities) {
@@ -280,21 +236,15 @@ module.exports = {
 
     getSession: function (req, res) {
 
-        // Set variables
-
         var password = req.query.password;
 
         var userID = req.userID;
-
-        // Validate request
 
         if (!password) {
 
             return res.badRequest('password');
 
         } else {
-
-            // Calculate karma
 
             var karma = 0;
 
@@ -316,8 +266,6 @@ module.exports = {
 
                     }, function () {
 
-                        // Update user
-
                         var updateUserNeedle = {karma: karma};
 
                         User.update(userID, updateUserNeedle).exec(function (err, updatedUsers) {
@@ -328,9 +276,7 @@ module.exports = {
 
                             } else {
 
-                                var isPasswordCorrect = CryptoService.encrypt(password) === updatedUsers[0].password;
-
-                                if (!isPasswordCorrect) {
+                                if (CryptoService.encrypt(password) !== updatedUsers[0].password) {
 
                                     return res.stahp('Wrong password.');
 

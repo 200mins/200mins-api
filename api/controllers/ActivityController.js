@@ -17,8 +17,6 @@ module.exports = {
 
     postMovieDownload: function (req, res) {
 
-        // Set variables
-
         var code = 'movie-download';
 
         var movieID = req.movieID;
@@ -27,23 +25,19 @@ module.exports = {
 
         var userID = req.userID;
 
-        // Validate request
-
         if (!req.query.hasOwnProperty('quality')) {
 
             return res.badRequest('quality');
 
         } else {
 
-            var quality = req.query.quality.toUpperCase();
+            quality = req.query.quality.toUpperCase();
 
             if (!(quality === '720P' || quality === '1080P' || quality === '3D')) {
 
                 return res.badRequest('quality');
 
             } else {
-
-                // Find activity
 
                 var findActivityNeedle = {
                     code: code,
@@ -59,8 +53,6 @@ module.exports = {
                         return res.serverError(err);
 
                     } else if (!foundActivity) {
-
-                        // Create activity
 
                         var createActivityNeedle = {
                             code: code,
@@ -100,8 +92,6 @@ module.exports = {
 
     postMovieLike: function (req, res) {
 
-        // Set variables
-
         var code = 'movie-like';
 
         var movieID = req.movieID;
@@ -110,15 +100,11 @@ module.exports = {
 
         var value = req.query.value;
 
-        // Validate request
-
         if (!(value === 'true' || value === 'false')) {
 
             return res.badRequest('value');
 
         } else {
-
-            // Find activity
 
             var findActivityNeedle = {
                 code: code,
@@ -139,8 +125,6 @@ module.exports = {
                         return res.stahp('You haven\'t liked this movie.');
 
                     } else {
-
-                        // Create activity
 
                         var createActivityNeedle = {
                             code: code,
@@ -168,8 +152,6 @@ module.exports = {
                 } else {
 
                     if (value !== 'true') {
-
-                        // Delete activity
 
                         Activity.destroy(foundActivity).exec(function (err) {
 
@@ -201,8 +183,6 @@ module.exports = {
 
     postMovieMarkWatchLater: function (req, res) {
 
-        // Set variables
-
         var code = 'movie-mark-watch-later';
 
         var movieID = req.movieID;
@@ -211,15 +191,11 @@ module.exports = {
 
         var value = req.query.value;
 
-        // Validate request
-
         if (!(value === 'true' || value === 'false')) {
 
             return res.badRequest('value');
 
         } else {
-
-            // Find activity
 
             var findActivityNeedle = {
                 code: code,
@@ -240,8 +216,6 @@ module.exports = {
                         return res.stahp('You haven\'t marked this movie to watch later.');
 
                     } else {
-
-                        // Create activity
 
                         var createActivityNeedle = {
                             code: code,
@@ -269,8 +243,6 @@ module.exports = {
                 } else {
 
                     if (value !== 'true') {
-
-                        // Delete activity
 
                         Activity.destroy(foundActivity).exec(function (err) {
 
@@ -302,8 +274,6 @@ module.exports = {
 
     postMovieMarkWatched: function (req, res) {
 
-        // Set variables
-
         var code = 'movie-mark-watched';
 
         var movieID = req.movieID;
@@ -312,15 +282,11 @@ module.exports = {
 
         var value = req.query.value;
 
-        // Validate request
-
         if (!(value === 'true' || value === 'false')) {
 
             return res.badRequest('value');
 
         } else {
-
-            // Find activity
 
             var findActivityNeedle = {
                 code: code,
@@ -341,8 +307,6 @@ module.exports = {
                         return res.stahp('You haven\'t marked this movie as watched.');
 
                     } else {
-
-                        // Create activity
 
                         var createActivityNeedle = {
                             code: code,
@@ -370,8 +334,6 @@ module.exports = {
                 } else {
 
                     if (value !== 'true') {
-
-                        // Delete activity
 
                         Activity.destroy(foundActivity).exec(function (err) {
 
@@ -403,8 +365,6 @@ module.exports = {
 
     postMoviePlay: function (req, res) {
 
-        // Set variables
-
         var code = 'movie-play';
 
         var movieID = req.movieID;
@@ -413,23 +373,19 @@ module.exports = {
 
         var userID = req.userID;
 
-        // Validate request
-
         if (!req.query.hasOwnProperty('quality')) {
 
             return res.badRequest('quality');
 
         } else {
 
-            var quality = req.query.quality.toUpperCase();
+            quality = req.query.quality.toUpperCase();
 
             if (!(quality === '720P' || quality === '1080P' || quality === '3D')) {
 
                 return res.badRequest('quality');
 
             } else {
-
-                // Find activity
 
                 var findActivityNeedle = {
                     code: code,
@@ -445,8 +401,6 @@ module.exports = {
                         return res.serverError(err);
 
                     } else if (!foundActivity) {
-
-                        // Create activity
 
                         var createActivityNeedle = {
                             code: code,
