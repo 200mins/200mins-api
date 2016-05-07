@@ -11,9 +11,9 @@ module.exports = {
 
         // TODO: Add validations
 
-        if (!req.body.hasOwnProperty('email') || !req.body.hasOwnProperty('password') || !req.body.hasOwnProperty('username')) {
+        if (!req.body.hasOwnProperty('city') || !req.body.hasOwnProperty('countryCode') || !req.body.hasOwnProperty('email') || !req.body.hasOwnProperty('password') || !req.body.hasOwnProperty('username')) {
 
-            return res.badRequest('email || password || username');
+            return res.badRequest('city || countryCode || email || password || username');
 
         } else {
 
@@ -89,6 +89,8 @@ module.exports = {
 
                     var createUserNeedle = {
                         avatar: 'https://api.adorable.io/avatars/285/' + req.body.username,
+                        city: req.body.city,
+                        countryCode: req.body.countryCode,
                         email: CryptoService.encrypt(req.body.email),
                         password: req.body.password,
                         username: req.body.username

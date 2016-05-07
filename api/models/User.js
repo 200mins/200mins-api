@@ -28,6 +28,16 @@ module.exports = {
 
         // Required
 
+        city: {
+            type: 'string',
+            required: true
+        },
+
+        countryCode: {
+            type: 'string',
+            required: true
+        },
+
         password: {
             type: 'string',
             protected: true,
