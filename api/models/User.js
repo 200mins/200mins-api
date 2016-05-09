@@ -30,11 +30,13 @@ module.exports = {
 
         city: {
             type: 'string',
+            protected: true,
             required: true
         },
 
         countryCode: {
             type: 'string',
+            protected: true,
             required: true
         },
 

@@ -119,6 +119,26 @@ module.exports = {
 
     },
 
+    index: function (req, res) {
+
+        var findUserNeedle = req.userID;
+
+        User.findOne(findUserNeedle).exec(function (err, foundUser) {
+
+            if (err) {
+
+                return res.serverError(err);
+
+            } else {
+
+                return res.json(foundUser);
+
+            }
+
+        });
+
+    },
+
     getMovieDownload: function(req, res){
 
         var findActivityNeedle = {
