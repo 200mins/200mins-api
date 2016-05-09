@@ -126,7 +126,7 @@ module.exports = {
             user: req.userID
         };
 
-        Activity.find(findActivityNeedle).populate('movie').exec(function (err, foundActivities) {
+        Activity.find(findActivityNeedle).populate('movie').sort('createdAt DESC').exec(function (err, foundActivities) {
 
             if (err) {
 
@@ -149,7 +149,7 @@ module.exports = {
             user: req.userID
         };
 
-        Activity.find(findActivityNeedle).populate('movie').exec(function (err, foundActivities) {
+        Activity.find(findActivityNeedle).populate('movie').sort('createdAt DESC').exec(function (err, foundActivities) {
 
             if (err) {
 
@@ -172,7 +172,7 @@ module.exports = {
             user: req.userID
         };
 
-        Activity.find(findActivityNeedle).populate('movie').exec(function (err, foundActivities) {
+        Activity.find(findActivityNeedle).populate('movie').sort('createdAt DESC').exec(function (err, foundActivities) {
 
             if (err) {
 
@@ -195,7 +195,7 @@ module.exports = {
             user: req.userID
         };
 
-        Activity.find(findActivityNeedle).populate('movie').exec(function (err, foundActivities) {
+        Activity.find(findActivityNeedle).populate('movie').sort('createdAt DESC').exec(function (err, foundActivities) {
 
             if (err) {
 
@@ -218,7 +218,7 @@ module.exports = {
             user: req.userID
         };
 
-        Activity.find(findActivityNeedle).populate('movie').exec(function (err, foundActivities) {
+        Activity.find(findActivityNeedle).populate('movie').sort('createdAt DESC').exec(function (err, foundActivities) {
 
             if (err) {
 
