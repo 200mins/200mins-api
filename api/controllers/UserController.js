@@ -105,7 +105,7 @@ module.exports = {
                                 user: createdUser
                             };
 
-                            return res.json(response);
+                            return res.created(response);
 
                         }
 
@@ -119,7 +119,7 @@ module.exports = {
 
     },
 
-    index: function (req, res) {
+    getByUsername: function (req, res) {
 
         var findUserNeedle = req.userID;
 

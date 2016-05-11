@@ -12,7 +12,7 @@ module.exports.routes = {
     'GET    /proxy/movie_details':                      'Proxy.getMovieDetails',
 
     'POST   /user':                                     'User.create',
-    'GET    /user/:username':                           'User.index',
+    'GET    /user/:username':                           'User.getByUsername',
     'GET    /user/:username/movie-download':            'User.getMovieDownload',
     'GET    /user/:username/movie-like':                'User.getMovieLike',
     'GET    /user/:username/movie-mark-watch-later':    'User.getMovieMarkWatchLater',

@@ -20,7 +20,7 @@ module.exports = function (req, res, next) {
 
             } else if (!foundUser) {
 
-                return res.stahp('User doesn\'t exist.');
+                return res.dunno('User doesn\'t exist.');
 
             } else {
 
