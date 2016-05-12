@@ -119,7 +119,7 @@ module.exports = {
 
     },
 
-    getByUsername: function (req, res) {
+    getUserByUsername: function (req, res) {
 
         var findUserNeedle = req.userID;
 
@@ -323,6 +323,23 @@ module.exports = {
 
         }
 
-    }
+    },
+    
+    getUserNew: function (req, res) {
+
+        User.find().limit(5).sort('createdAt DESC').exec(function (err, foundUsers) {
+
+            if (err) {
+
+                return res.serverError(err);
+
+            } else {
+
+                return res.json(foundUsers);
+
+            }
+
+        });
+    },
 
 };

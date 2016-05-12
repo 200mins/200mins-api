@@ -14,7 +14,8 @@ module.exports.policies = {
 
     UserController: {
         '*': 'isUsernameValid',
-        create: true
+        create: true,
+        getUserNew: true
     }
 
 };
